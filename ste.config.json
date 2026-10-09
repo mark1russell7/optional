@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/@mark1russell7/ste-lint/ste.config.schema.json",
+  "include": ["README.md", "CLAUDE.md", "src/**/*.ts"],
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/*.d.ts", "**/*.test.ts"],
+  "technicalNouns": ["optional", "sentinel", "functor", "monad", "fallback"],
+  "technicalVerbs": [],
+  "properNouns": ["ASD", "ASD-STE100", "Claude", "GitHub", "Graph", "render", "Vex", "pnpm", "Simplified Technical English", "TSDoc", "TypeScript"]
+}

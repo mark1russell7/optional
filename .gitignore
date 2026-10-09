@@ -1,0 +1,7 @@
+node_modules/
+coverage/
+*.log
+.DS_Store
+.vscode/
+.idea/
+# The built package (dist/) is committed: a github: dependency needs no build step.

@@ -1,0 +1,4 @@
+# Packages allowed to run install scripts. A git-hosted package is approved by its repository URL.
+allowBuilds:
+  "@mark1russell7/cue@git+https://github.com/mark1russell7/cue.git": true
+  esbuild: true
