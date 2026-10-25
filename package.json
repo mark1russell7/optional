@@ -25,7 +25,7 @@
     "check": "pnpm typecheck && pnpm test && pnpm lint:ste"
   },
   "devDependencies": {
-    "@mark1russell7/cue": "github:mark1russell7/cue",
+    "@mark1russell7/cue": "^1.0.2",
     "@mark1russell7/ste-lint": "github:mark1russell7/ste-lint",
     "@types/node": "^26.6.4",
     "fast-check": "^4.10.2",
