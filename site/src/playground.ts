@@ -1,5 +1,5 @@
 // The pipeline playground: the controls of the builder, and the track that shows the value after each step.
-import { byId, copyText, h } from "./chrome.ts";
+import { byId, copyText, h } from "@mark1russell7/site-pages/chrome";
 import {
   code,
   ENDS,

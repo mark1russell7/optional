@@ -1,11 +1,11 @@
 // The start of the page: the theme, the playground, the laws, the API table and the build line.
 import { API, result } from "./api.ts";
-import { byId, copyText, h, setupTheme } from "./chrome.ts";
+import { byId, copyText, h, setupTheme } from "@mark1russell7/site-pages/chrome";
 import { LawPanel } from "./law-panel.ts";
 import { Playground } from "./playground.ts";
 import "./style.css";
 
-setupTheme(byId<HTMLButtonElement>("theme"));
+setupTheme(byId<HTMLButtonElement>("theme"), "optional-theme");
 new Playground();
 new LawPanel();
 

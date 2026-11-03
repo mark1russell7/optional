@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@mark1russell7/optional": "workspace:*",
-    "@mark1russell7/rigor-generators": "^0.1.1"
+    "@mark1russell7/rigor-generators": "^0.1.1",
+    "@mark1russell7/site-pages": "^0.1.10"
   },
   "devDependencies": {
     "@mark1russell7/cue": "^1.0.2",
