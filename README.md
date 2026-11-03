@@ -16,7 +16,6 @@ getOr(fromNullable(undefined), 0);  // 0
 |---|---|
 | [render](https://github.com/mark1russell7/render) | `@render/optional` gives the exports of this package. |
 | [Vex](https://github.com/mark1russell7/vex) | The type `Optional` of `@mark1russell7/vex` is the type of this package. |
-| Graph | Graph uses a sentinel form: a value or the symbol `NotFound`. `fromSentinel` and `toSentinel` change between the two forms. |
 
 ## API
 
@@ -30,11 +29,20 @@ getOr(fromNullable(undefined), 0);  // 0
 | `fromNullable(value)` | `none` for `null` and `undefined`, else `some(value)` |
 | `fromSentinel(value, sentinel)`, `toSentinel(o, sentinel)` | The change between this form and a sentinel form |
 
+## Site
+
+The site [mark1russell7.github.io/optional](https://mark1russell7.github.io/optional/) shows the package live in the browser:
+
+- The pipeline playground shows the value after each step. After a `none`, the functions of the next steps do not operate.
+- The law panel checks the functor laws and the monad laws on random cases from a seed.
+
+The source of the site is in `site/`. `pnpm --filter @optional/site run dev` starts it.
+
 ## Commands
 
 ```sh
 pnpm install
-pnpm check    # the type check, the tests and the writing rules
+pnpm check    # the type check, the tests and the writing rules, also of the site
 pnpm build    # dist/: commit it after a change, because a github: dependency does not build the package
 ```
 
