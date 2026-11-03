@@ -167,11 +167,11 @@ importers:
   .:
     devDependencies:
       '@mark1russell7/conventions':
-        specifier: ^0.24.0
-        version: 0.24.1
+        specifier: ^0.25.0
+        version: 0.25.0
       '@mark1russell7/cue':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.1.0
       '@mark1russell7/ste-lint':
         specifier: github:mark1russell7/ste-lint#f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7
         version: https://codeload.github.com/mark1russell7/ste-lint/tar.gz/f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7
@@ -202,7 +202,7 @@ importers:
     devDependencies:
       '@mark1russell7/cue':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.1.0
       '@types/node':
         specifier: ^26.6.4
         version: 26.6.4
@@ -228,13 +228,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@mark1russell7/conventions@0.24.1':
-    resolution: {integrity: sha512-4FATOd/MOOMHFBZtrRP+ZFeEUHwgannQD9FjWH81wVT6TbMJVNbFNH/uXSb3cP+0f+jM/xV9tT6jZ4ZOPfrMEg==}
+  '@mark1russell7/conventions@0.25.0':
+    resolution: {integrity: sha512-p49TqkjzhugGqhKdWjKq5bXOd2ljkwEHdbkEUVzmHSz8b805t2NhGLvbq63oBHMHMv0lKfJDgU0LMIXmpEgqhA==}
     engines: {node: '>=22'}
     hasBin: true
 
-  '@mark1russell7/cue@2.0.0':
-    resolution: {integrity: sha512-ILRKnaE/Ooe+saWXiQ8BaRTncHIDq7/1xyGEAZs4JzF0gkZ7FNv9e6OKIBERAmprKbb598SEV5gCDgdibYWOqw==}
+  '@mark1russell7/cue@2.1.0':
+    resolution: {integrity: sha512-uFKZNUPqKDQkpE+4mha4rKiRBQe52HRtUCXJEpr1GZHo7JzrzoEGZUHNkURkVsA98dMWoUz2jMpWO98/Ty2fzg==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -778,9 +778,9 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@mark1russell7/conventions@0.24.1': {}
+  '@mark1russell7/conventions@0.25.0': {}
 
-  '@mark1russell7/cue@2.0.0': {}
+  '@mark1russell7/cue@2.1.0': {}
 
   '@mark1russell7/rigor-generators@0.1.1': {}
 
