@@ -36,14 +36,29 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json && pnpm --filter @optional/site run typecheck",
     "test": "vitest run && pnpm --filter @optional/site run test",
     "lint:ste": "ste-lint",
-    "check": "pnpm typecheck && pnpm test && pnpm lint:ste"
+    "check": "pnpm typecheck && pnpm test && pnpm lint:ste",
+    "check:conventions": "conventions check"
   },
   "devDependencies": {
+    "@mark1russell7/conventions": "^0.22.0",
     "@mark1russell7/cue": "^1.0.2",
-    "@mark1russell7/ste-lint": "github:mark1russell7/ste-lint",
+    "@mark1russell7/ste-lint": "github:mark1russell7/ste-lint#f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7",
     "@types/node": "^26.6.4",
     "fast-check": "^4.10.2",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
+  },
+  "conventions": {
+    "rules": {
+      "no-build-output": {
+        "off": "Git keeps dist/, because render and Vex install this package from git, and a git dependency needs no build at install. CI checks that dist/ is the build of src/."
+      },
+      "typed-scripts": {
+        "ignore": [
+          "dist/**"
+        ],
+        "reason": "dist/ is the build output of src/, which is TypeScript."
+      }
+    }
   }
 }
