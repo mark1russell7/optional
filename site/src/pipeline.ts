@@ -1,6 +1,6 @@
 // The model of the pipeline playground: an input, a start step, a list of steps and an end step.
 // Each step calls the real functions of @mark1russell7/optional. The trace tells the value after each step.
-import { flatMap, fromNullable, fromSentinel, getOr, isSome, map, none, some, toSentinel, unwrap, type Optional } from "@mark1russell7/optional";
+import { filter, flatMap, fromNullable, fromSentinel, getOr, isSome, map, none, some, toSentinel, unwrap, type Optional } from "@mark1russell7/optional";
 
 /** The marker of the input "a read that throws". */
 export const THROWS: unique symbol = Symbol("throws");
@@ -60,10 +60,13 @@ export const STARTS: readonly Start[] = [
   },
 ];
 
-/** A function of a step. `map` steps give a number, `flatMap` steps give an optional. */
-export type StepFn = { readonly kind: "map"; readonly f: (x: number) => number } | { readonly kind: "flatMap"; readonly f: (x: number) => Optional<number> };
+/** A function of a step. `map` steps give a number, `flatMap` steps give an optional, and `filter` steps give a boolean. */
+export type StepFn =
+  | { readonly kind: "map"; readonly f: (x: number) => number }
+  | { readonly kind: "flatMap"; readonly f: (x: number) => Optional<number> }
+  | { readonly kind: "filter"; readonly p: (x: number) => boolean };
 
-/** A step between the start and the end: a `map` or a `flatMap` with a function. */
+/** A step between the start and the end: a `map`, a `flatMap` or a `filter` with a function. */
 export interface Step {
   readonly id: string;
   readonly label: string;
@@ -79,8 +82,8 @@ export const STEPS: readonly Step[] = [
   { id: "negate", label: "map −x", code: "map(o, (x) => -x)", fn: { kind: "map", f: (x) => -x } },
   { id: "sqrt", label: "flatMap √x", code: "flatMap(o, (x) => (x >= 0 ? some(Math.sqrt(x)) : none))", fn: { kind: "flatMap", f: (x) => (x >= 0 ? some(Math.sqrt(x)) : none) } },
   { id: "divide", label: "flatMap 100 ÷ x", code: "flatMap(o, (x) => (x !== 0 ? some(100 / x) : none))", fn: { kind: "flatMap", f: (x) => (x !== 0 ? some(100 / x) : none) } },
-  { id: "even", label: "keep even", code: "flatMap(o, (x) => (x % 2 === 0 ? some(x) : none))", fn: { kind: "flatMap", f: (x) => (x % 2 === 0 ? some(x) : none) } },
-  { id: "positive", label: "keep x > 0", code: "flatMap(o, (x) => (x > 0 ? some(x) : none))", fn: { kind: "flatMap", f: (x) => (x > 0 ? some(x) : none) } },
+  { id: "even", label: "filter even", code: "filter(o, (x) => x % 2 === 0)", fn: { kind: "filter", p: (x) => x % 2 === 0 } },
+  { id: "positive", label: "filter x > 0", code: "filter(o, (x) => x > 0)", fn: { kind: "filter", p: (x) => x > 0 } },
 ];
 
 /** The last step: it keeps the optional, or it changes it into a plain value. */
@@ -197,6 +200,12 @@ export function run(pipeline: Pipeline): Trace {
       o = map(value, (x) => {
         calls += 1;
         return f(x);
+      });
+    } else if (step.fn.kind === "filter") {
+      const p = step.fn.p;
+      o = filter(value, (x) => {
+        calls += 1;
+        return p(x);
       });
     } else {
       const f = step.fn.f;

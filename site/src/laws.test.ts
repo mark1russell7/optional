@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { none, some } from "@mark1russell7/optional";
-import { checkLaws, FLAT_FNS, inputs, MAP_FNS, same, type Settings } from "./laws.ts";
+import { checkLaws, FILTER_FNS, FLAT_FNS, inputs, MAP_FNS, same, type Settings } from "./laws.ts";
 
 const base: Settings = { seed: "optional", count: 200, mapF: "double", mapG: "inc", flatF: "sqrt", flatG: "divide" };
 
@@ -9,6 +9,14 @@ describe("the laws", () => {
     for (const f of MAP_FNS) for (const g of MAP_FNS) for (const kf of FLAT_FNS) for (const kg of FLAT_FNS) {
       const results = checkLaws({ ...base, count: 60, mapF: f.id, mapG: g.id, flatF: kf.id, flatG: kg.id });
       for (const law of results) expect(law.passed, `${law.id} ${f.id} ${g.id} ${kf.id} ${kg.id}`).toBe(law.cases.length);
+    }
+  });
+
+  it("the filter laws pass for the package, with each pair of predicates", () => {
+    for (const p of FILTER_FNS) for (const q of FILTER_FNS) {
+      const results = checkLaws({ ...base, count: 60, filterP: p.id, filterQ: q.id }).filter((law) => law.family === "filter");
+      expect(results.map((law) => law.id)).toEqual(["filter-identity", "filter-composition"]);
+      for (const law of results) expect(law.passed, `${law.id} ${p.id} ${q.id}`).toBe(law.cases.length);
     }
   });
 
