@@ -40,7 +40,7 @@
     "check:conventions": "conventions check"
   },
   "devDependencies": {
-    "@mark1russell7/conventions": "^0.24.0",
+    "@mark1russell7/conventions": "^0.25.0",
     "@mark1russell7/cue": "^2.0.0",
     "@mark1russell7/ste-lint": "github:mark1russell7/ste-lint#f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7",
     "@types/node": "^26.6.4",
