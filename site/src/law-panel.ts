@@ -1,5 +1,5 @@
 // The panel of the laws: the settings, and one card for each law with a strip of its cases.
-import { byId, h } from "./chrome.ts";
+import { byId, h } from "@mark1russell7/site-pages/chrome";
 import { checkLaws, FILTER_FNS, FLAT_FNS, MAP_FNS, type Case, type LawResult, type Settings } from "./laws.ts";
 
 const COUNTS = [100, 200, 500, 1000] as const;
