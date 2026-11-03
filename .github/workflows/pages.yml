@@ -48,10 +48,11 @@ jobs:
       packages: "@mark1russell7/optional"
       site-name: optional
       # The site check: a browser opens each page at 360, 400 and 1280 px, in light and dark, before the deploy.
-      # The probe drives the playground and the law panel. A failure stops the deploy.
+      # The probe drives the playground and the law panel. The build writes it from site/src/check-probe.ts.
+      # A failure stops the deploy.
       site-check: true
       site-check-pages: /,/releases/,/status/
-      site-check-probe: site/check-probe.js
+      site-check-probe: site/dist/check-probe.js
       deploy: ${{ github.event_name != 'pull_request' }}
 
   # This job examines the deployed site: the home page and the pages of site-pages.
