@@ -14,6 +14,9 @@ export const isSome = (o) => o.tag === "some";
 export const map = (o, f) => (isSome(o) ? some(f(o.value)) : none);
 /** This function applies `f`, which gives an optional, to a present value. An absent value stays absent. */
 export const flatMap = (o, f) => (isSome(o) ? f(o.value) : none);
+export function filter(o, p) {
+    return isSome(o) && p(o.value) ? o : none;
+}
 /** This function gives the present value, or `undefined`. */
 export const unwrap = (o) => (isSome(o) ? o.value : undefined);
 /** This function gives the present value, or `fallback`. */

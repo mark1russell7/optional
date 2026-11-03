@@ -25,6 +25,12 @@ export declare const isSome: <T>(o: Optional<T>) => o is Some<T>;
 export declare const map: <T, U>(o: Optional<T>, f: (v: T) => U) => Optional<U>;
 /** This function applies `f`, which gives an optional, to a present value. An absent value stays absent. */
 export declare const flatMap: <T, U>(o: Optional<T>, f: (v: T) => Optional<U>) => Optional<U>;
+/**
+ * This function keeps a present value when `p` gives `true` for it. Otherwise, the result is absent. A type guard `p`
+ * narrows the type of the value.
+ */
+export declare function filter<T, S extends T>(o: Optional<T>, p: (v: T) => v is S): Optional<S>;
+export declare function filter<T>(o: Optional<T>, p: (v: T) => boolean): Optional<T>;
 /** This function gives the present value, or `undefined`. */
 export declare const unwrap: <T>(o: Optional<T>) => T | undefined;
 /** This function gives the present value, or `fallback`. */

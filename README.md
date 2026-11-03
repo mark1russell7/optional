@@ -25,6 +25,7 @@ getOr(fromNullable(undefined), 0);  // 0
 | `some(value)`, `none` | The two kinds of value. `none` is one frozen object. |
 | `isSome(o)`, `isNone(o)` | The type guards |
 | `map(o, f)`, `flatMap(o, f)` | `f` applies to a present value. An absent value stays absent. The tests check the functor laws and the monad laws. |
+| `filter(o, p)` | The present value stays when `p` is `true` for it. Otherwise, the result is `none`. A type guard `p` narrows the type. |
 | `unwrap(o)`, `getOr(o, fallback)` | The present value, or `undefined`, or the fallback |
 | `fromNullable(value)` | `none` for `null` and `undefined`, else `some(value)` |
 | `fromSentinel(value, sentinel)`, `toSentinel(o, sentinel)` | The change between this form and a sentinel form |

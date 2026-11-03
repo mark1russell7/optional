@@ -1,6 +1,6 @@
 import * as fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { flatMap, fromNullable, fromSentinel, getOr, isNone, isSome, map, none, some, toSentinel, unwrap, type Optional } from "./index.ts";
+import { filter, flatMap, fromNullable, fromSentinel, getOr, isNone, isSome, map, none, some, toSentinel, unwrap, type Optional } from "./index.ts";
 
 const optional = <T>(value: fc.Arbitrary<T>): fc.Arbitrary<Optional<T>> => fc.oneof(fc.constant(none), value.map((v) => some(v)));
 const NotFound: unique symbol = Symbol("NotFound");
@@ -44,6 +44,37 @@ describe("Optional", () => {
         expect(flatMap(some(x), f)).toEqual(f(x));
         expect(flatMap(o, some)).toEqual(o);
         expect(flatMap(flatMap(o, f), g)).toEqual(flatMap(o, (y) => flatMap(f(y), g)));
+      }),
+    );
+  });
+
+  it("filter keeps a present value when p is true, and gives none otherwise", () => {
+    const o = some(4);
+    expect(filter(o, (x) => x % 2 === 0)).toBe(o);
+    expect(filter(some(3), (x) => x % 2 === 0)).toBe(none);
+    let calls = 0;
+    expect(
+      filter(none as Optional<number>, () => {
+        calls += 1;
+        return true;
+      }),
+    ).toBe(none);
+    expect(calls).toBe(0);
+  });
+
+  it("filter narrows the type with a type guard", () => {
+    const o: Optional<string | number> = some("a");
+    const s: Optional<string> = filter(o, (v): v is string => typeof v === "string");
+    expect(s).toEqual(some("a"));
+  });
+
+  it("the filter laws: identity and composition", () => {
+    const p = (x: number): boolean => x % 2 === 0;
+    const q = (x: number): boolean => x > 0;
+    fc.assert(
+      fc.property(optional(fc.integer({ min: -20, max: 20 })), (o) => {
+        expect(filter(o, () => true)).toEqual(o);
+        expect(filter(filter(o, p), q)).toEqual(filter(o, (y) => p(y) && q(y)));
       }),
     );
   });

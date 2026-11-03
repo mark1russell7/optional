@@ -41,7 +41,7 @@ click('#presets [data-preset="why"]');
 check("some(null) is present, so map gives some(0)", await until(() => result() === "some(0)"), result());
 
 const laws = () => $$("#law-list .law");
-check("the panel shows the five laws", await until(() => laws().length === 5), `${laws().length} laws`);
+check("the panel shows the seven laws", await until(() => laws().length === 7), `${laws().length} laws`);
 check(
   "each law passes on each case",
   laws().every((law) => law.dataset["ok"] === "true" && /200 \/ 200/.test(law.querySelector(".count")?.textContent ?? "")),
@@ -54,6 +54,6 @@ check("the broken implementation fails the identity laws on o", await until(() =
 click("#broken");
 check("the package passes again", await until(() => failing().length === 0), failing().join());
 
-check("the API table shows a live result for each row", $$("#api-rows tr").length === 7 && $$("#api-rows output").every((o) => (o.textContent ?? "") !== ""), `${$$("#api-rows tr").length} rows`);
+check("the API table shows a live result for each row", $$("#api-rows tr").length === 8 && $$("#api-rows output").every((o) => (o.textContent ?? "") !== ""), `${$$("#api-rows tr").length} rows`);
 
 export {};

@@ -1,6 +1,6 @@
 // The API table of the README, with one live example for each export. The page calls each example
 // with the functions of the package and shows the result.
-import { flatMap, fromNullable, fromSentinel, getOr, isNone, isSome, map, none, some, toSentinel, unwrap, type Optional } from "@mark1russell7/optional";
+import { filter, flatMap, fromNullable, fromSentinel, getOr, isNone, isSome, map, none, some, toSentinel, unwrap, type Optional } from "@mark1russell7/optional";
 import { showOptional, showValue } from "./pipeline.ts";
 
 /** One example of an export: its code and the call that gives its result. */
@@ -45,6 +45,14 @@ export const API: readonly ApiRow[] = [
     examples: [
       { code: "map(some(4), (w) => w * 2)", run: () => map(some(4), (w) => w * 2) },
       { code: "flatMap(some(3), (x) => (x > 5 ? some(x) : none))", run: () => flatMap(some(3), (x) => (x > 5 ? some(x) : none)) },
+    ],
+  },
+  {
+    names: ["filter(o, p)"],
+    what: "The present value stays when p is true for it. Otherwise, the result is none.",
+    examples: [
+      { code: "filter(some(4), (x) => x % 2 === 0)", run: () => filter(some(4), (x) => x % 2 === 0) },
+      { code: "filter(some(3), (x) => x % 2 === 0)", run: () => filter(some(3), (x) => x % 2 === 0) },
     ],
   },
   {

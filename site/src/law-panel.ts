@@ -1,6 +1,6 @@
 // The panel of the laws: the settings, and one card for each law with a strip of its cases.
 import { byId, h } from "./chrome.ts";
-import { checkLaws, FLAT_FNS, MAP_FNS, type Case, type LawResult, type Settings } from "./laws.ts";
+import { checkLaws, FILTER_FNS, FLAT_FNS, MAP_FNS, type Case, type LawResult, type Settings } from "./laws.ts";
 
 const COUNTS = [100, 200, 500, 1000] as const;
 
@@ -18,6 +18,8 @@ export class LawPanel {
   private readonly mapG = byId<HTMLSelectElement>("map-g");
   private readonly flatF = byId<HTMLSelectElement>("flat-f");
   private readonly flatG = byId<HTMLSelectElement>("flat-g");
+  private readonly filterP = byId<HTMLSelectElement>("filter-p");
+  private readonly filterQ = byId<HTMLSelectElement>("filter-q");
   /** The case that each law shows in its detail line, by the ID of the law. */
   private readonly selected = new Map<string, number>();
   private round = 1;
@@ -28,8 +30,10 @@ export class LawPanel {
     options(this.mapG, MAP_FNS, "inc");
     options(this.flatF, FLAT_FNS, "sqrt");
     options(this.flatG, FLAT_FNS, "divide");
+    options(this.filterP, FILTER_FNS, "even");
+    options(this.filterQ, FILTER_FNS, "positive");
     for (const el of [this.seed, this.typed]) el.addEventListener("input", () => this.check());
-    for (const el of [this.count, this.mapF, this.mapG, this.flatF, this.flatG, this.broken]) el.addEventListener("change", () => this.check());
+    for (const el of [this.count, this.mapF, this.mapG, this.flatF, this.flatG, this.filterP, this.filterQ, this.broken]) el.addEventListener("change", () => this.check());
     byId("new-seed").addEventListener("click", () => {
       this.round += 1;
       this.seed.value = `optional-${this.round}`;
@@ -59,6 +63,8 @@ export class LawPanel {
       mapG: this.mapG.value,
       flatF: this.flatF.value,
       flatG: this.flatG.value,
+      filterP: this.filterP.value,
+      filterQ: this.filterQ.value,
       typed: badTyped ? undefined : typed,
       broken: this.broken.checked,
     };
@@ -92,7 +98,7 @@ export class LawPanel {
       h(
         "header",
         {},
-        h("span", { class: "family" }, law.family === "functor" ? "Functor" : "Monad"),
+        h("span", { class: "family" }, law.family === "functor" ? "Functor" : law.family === "monad" ? "Monad" : "Filter"),
         h("h3", {}, law.name),
         h("span", { class: "badge" }, ok ? "pass" : "fail", " ", h("span", { class: "count" }, `${law.passed} / ${law.cases.length}`)),
       ),

@@ -89,7 +89,7 @@
         <div class="section-head">
           <h2 id="laws-title">The laws, checked live</h2>
           <p class="hint">
-            The functions <code>map</code> and <code>flatMap</code> obey the functor laws and the monad laws. This panel checks each law on random
+            The functions <code>map</code> and <code>flatMap</code> obey the functor laws and the monad laws, and <code>filter</code> obeys two laws of its own. This panel checks each law on random
             cases from a seed. A seed always gives the same cases.
           </p>
         </div>
@@ -106,6 +106,7 @@
           <div class="row fns">
             <span class="fn-group">Functor laws: <code>f</code> <select id="map-f" aria-label="f of the functor laws"></select> <code>g</code> <select id="map-g" aria-label="g of the functor laws"></select></span>
             <span class="fn-group">Monad laws: <code>f</code> <select id="flat-f" aria-label="f of the monad laws"></select> <code>g</code> <select id="flat-g" aria-label="g of the monad laws"></select></span>
+            <span class="fn-group">Filter laws: <code>p</code> <select id="filter-p" aria-label="p of the filter laws"></select> <code>q</code> <select id="filter-q" aria-label="q of the filter laws"></select></span>
           </div>
           <label class="broken"><input type="checkbox" id="broken" /> <span>Use a broken <code>map</code> and <code>flatMap</code>: for <code>none</code>, they apply the function to 0.</span></label>
           <p class="law-summary" id="law-summary" role="status" aria-live="polite"></p>
