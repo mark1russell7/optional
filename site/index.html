@@ -97,7 +97,7 @@
           <div class="row">
             <label class="ctl">Seed <input id="seed" class="mono" type="text" value="optional" spellcheck="false" autocomplete="off" /></label>
             <label class="ctl">Cases <select id="count"></select></label>
-            <label class="ctl">Your <code>x</code> <input id="typed" class="mono" type="text" inputmode="decimal" placeholder="a number" autocomplete="off" /></label>
+            <label class="ctl"><span>Your <code>x</code></span> <input id="typed" class="mono" type="text" inputmode="decimal" placeholder="a number" autocomplete="off" /></label>
             <div class="buttons">
               <button type="button" id="new-seed">New seed</button>
               <button type="button" id="run-laws" class="primary">Check the laws</button>
@@ -107,7 +107,7 @@
             <span class="fn-group">Functor laws: <code>f</code> <select id="map-f" aria-label="f of the functor laws"></select> <code>g</code> <select id="map-g" aria-label="g of the functor laws"></select></span>
             <span class="fn-group">Monad laws: <code>f</code> <select id="flat-f" aria-label="f of the monad laws"></select> <code>g</code> <select id="flat-g" aria-label="g of the monad laws"></select></span>
           </div>
-          <label class="broken"><input type="checkbox" id="broken" /> Use a broken <code>map</code> and <code>flatMap</code>: for <code>none</code>, they apply the function to 0.</label>
+          <label class="broken"><input type="checkbox" id="broken" /> <span>Use a broken <code>map</code> and <code>flatMap</code>: for <code>none</code>, they apply the function to 0.</span></label>
           <p class="law-summary" id="law-summary" role="status" aria-live="polite"></p>
           <p class="legend hint" aria-hidden="true">
             <span class="cell pass present"></span> <code>some</code> case passes <span class="cell pass absent"></span> <code>none</code> case passes

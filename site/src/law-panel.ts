@@ -50,7 +50,8 @@ export class LawPanel {
     const typedText = this.typed.value.trim();
     const typed = typedText === "" ? undefined : Number(typedText);
     const badTyped = typed !== undefined && !Number.isFinite(typed);
-    this.typed.toggleAttribute("aria-invalid", badTyped);
+    if (badTyped) this.typed.setAttribute("aria-invalid", "true");
+    else this.typed.removeAttribute("aria-invalid");
     return {
       seed: this.seed.value,
       count: Number(this.count.value),

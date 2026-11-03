@@ -210,7 +210,7 @@ export class Playground {
         "li",
         { class: "station input", "data-state": "value" },
         rail(LANE.value, "value", trace.stations.length === 0),
-        h("div", { class: "body" }, h("div", { class: "top" }, h("span", { class: "op" }, "input x"), h("span", { class: "val s-value" }, inputText(input))), h("p", { class: "note" }, describeInput(input))),
+        h("div", { class: "body" }, h("div", { class: "row1" }, h("span", { class: "op" }, "input x"), h("span", { class: "val s-value" }, inputText(input))), h("p", { class: "note" }, describeInput(input))),
       ),
     );
     let from = LANE.value;
@@ -235,7 +235,7 @@ export class Playground {
       h(
         "div",
         { class: "body" },
-        h("div", { class: "top" }, h("span", { class: "op" }, station.label), h("span", { class: `val s-${station.state}` }, station.state === "skipped" ? "none" : station.shown)),
+        h("div", { class: "row1" }, h("span", { class: "op" }, station.label), h("span", { class: `val s-${station.state}` }, station.state === "skipped" ? "none" : station.shown)),
         h("code", { class: "code" }, station.code),
         h("p", { class: "note" }, h("span", { class: `tag s-${station.state}` }, STATE_WORD[station.state]), " ", station.note),
       ),

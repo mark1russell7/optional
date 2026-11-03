@@ -500,12 +500,11 @@ main {
 
 .lanes {
   position: relative;
-  width: 80px;
+  width: 96px;
   height: 1.1rem;
-  font-size: 0.7rem;
-  font-weight: 650;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .lanes span {
@@ -531,7 +530,7 @@ main {
 
 .station {
   display: grid;
-  grid-template-columns: 80px minmax(0, 1fr);
+  grid-template-columns: 96px minmax(0, 1fr);
   min-height: 4.25rem;
 }
 
@@ -631,7 +630,7 @@ main {
   border-bottom: 0;
 }
 
-.station .top {
+.station .row1 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -688,6 +687,8 @@ main {
 
 .station .code {
   display: block;
+  background: none;
+  padding: 0;
   margin-top: 0.2rem;
   font-size: 0.8rem;
   color: var(--muted);
@@ -771,6 +772,7 @@ main {
 
 .law-controls {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
 }
 
@@ -821,6 +823,10 @@ main {
   display: flex;
   align-items: baseline;
   gap: 0.45rem;
+}
+
+.broken span {
+  min-width: 0;
 }
 
 .law-summary {
@@ -1057,11 +1063,11 @@ td.live output {
   }
 
   .station {
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: 76px minmax(0, 1fr);
   }
 
   .lanes {
-    width: 64px;
+    width: 76px;
   }
 
   .result output {
