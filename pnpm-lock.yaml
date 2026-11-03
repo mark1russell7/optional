@@ -167,11 +167,11 @@ importers:
   .:
     devDependencies:
       '@mark1russell7/conventions':
-        specifier: ^0.22.0
-        version: 0.22.0
+        specifier: ^0.23.0
+        version: 0.23.0
       '@mark1russell7/cue':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^2.0.0
+        version: 2.0.0
       '@mark1russell7/ste-lint':
         specifier: github:mark1russell7/ste-lint#f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7
         version: https://codeload.github.com/mark1russell7/ste-lint/tar.gz/f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7
@@ -201,8 +201,8 @@ importers:
         version: 0.1.10
     devDependencies:
       '@mark1russell7/cue':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/node':
         specifier: ^26.6.4
         version: 26.6.4
@@ -228,13 +228,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@mark1russell7/conventions@0.22.0':
-    resolution: {integrity: sha512-MtNaOnUyG9trSTY0S9In5+JtGwNpYHRGYxvDgncGtn50VBE75fJ7aSFNOxZDcDY4F0+AoG2pOJbnQd+bSSX13Q==}
+  '@mark1russell7/conventions@0.23.0':
+    resolution: {integrity: sha512-VFrPq12jxlLGaX5yLzULf0rRa/7TXp5mmb8H2x2zfQS19tcyY1IYcanDKkQIikf8SjUDNzisDLmspUgPucy16A==}
     engines: {node: '>=22'}
     hasBin: true
 
-  '@mark1russell7/cue@1.1.0':
-    resolution: {integrity: sha512-R9pjuWNFqd/LSfOI8uY7w8E2Dri8UQFGLodBuV4d2E0pwzWM5ISVXWVhC7+aYgrR1GXSMzbyo5ZLWvqyQCwdIg==}
+  '@mark1russell7/cue@2.0.0':
+    resolution: {integrity: sha512-ILRKnaE/Ooe+saWXiQ8BaRTncHIDq7/1xyGEAZs4JzF0gkZ7FNv9e6OKIBERAmprKbb598SEV5gCDgdibYWOqw==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -778,9 +778,9 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@mark1russell7/conventions@0.22.0': {}
+  '@mark1russell7/conventions@0.23.0': {}
 
-  '@mark1russell7/cue@1.1.0': {}
+  '@mark1russell7/cue@2.0.0': {}
 
   '@mark1russell7/rigor-generators@0.1.1': {}
 
