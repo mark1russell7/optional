@@ -1,6 +1,6 @@
 /**
  * The Optional of the family: a value that is present (`Some`) or absent (`None`). The packages render and Vex use
- * this form. Graph uses a sentinel form, and `fromSentinel` and `toSentinel` convert between the two forms.
+ * this form. `fromSentinel` and `toSentinel` convert between this form and a sentinel form.
  */
 /** The one absent value. */
 export const none = Object.freeze({ tag: "none" });
@@ -22,7 +22,7 @@ export const getOr = (o, fallback) => (isSome(o) ? o.value : fallback);
 export const fromNullable = (value) => (value === null || value === undefined ? none : some(value));
 /**
  * This function changes a value of the sentinel form into an optional. In the sentinel form, the value `sentinel`
- * means "absent", for example the symbol `NotFound` of Graph.
+ * means "absent", for example a symbol `NotFound`.
  */
 export const fromSentinel = (value, sentinel) => (value === sentinel ? none : some(value));
 /** This function changes an optional into the sentinel form: an absent value becomes `sentinel`. */

@@ -1,6 +1,6 @@
 /**
  * The Optional of the family: a value that is present (`Some`) or absent (`None`). The packages render and Vex use
- * this form. Graph uses a sentinel form, and `fromSentinel` and `toSentinel` convert between the two forms.
+ * this form. `fromSentinel` and `toSentinel` convert between this form and a sentinel form.
  */
 /** The absence of a value. */
 export type None = {
@@ -33,7 +33,7 @@ export declare const getOr: <T, U>(o: Optional<T>, fallback: U) => T | U;
 export declare const fromNullable: <T>(value: T | null | undefined) => Optional<NonNullable<T>>;
 /**
  * This function changes a value of the sentinel form into an optional. In the sentinel form, the value `sentinel`
- * means "absent", for example the symbol `NotFound` of Graph.
+ * means "absent", for example a symbol `NotFound`.
  */
 export declare const fromSentinel: <T, S>(value: T | S, sentinel: S) => Optional<T>;
 /** This function changes an optional into the sentinel form: an absent value becomes `sentinel`. */

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>optional: a value that is present or absent, live</title>
+    <meta name="description" content="Build a pipeline of map, flatMap and getOr on a value that is present (some) or absent (none), and see each step. Check the functor laws and the monad laws in your browser." />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317192a'/%3E%3Cpath d='M9 6v20' stroke='%2336c28f' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M23 6v20' stroke='%23a597e8' stroke-width='3' stroke-linecap='round' stroke-dasharray='3 4'/%3E%3Ccircle cx='9' cy='16' r='4' fill='%2336c28f'/%3E%3C/svg%3E" />
+    <script>
+      // The saved theme applies before the first paint, so a dark page does not flash white.
+      try {
+        const t = localStorage.getItem("optional-theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#playground">Skip to the playground</a>
+    <header class="top">
+      <div class="brand">
+        <h1 class="wordmark"><span class="mark" aria-hidden="true"><i></i><i></i></span>optional</h1>
+        <p class="lead">
+          A value that is present (<code class="k-some">some</code>) or absent (<code class="k-none">none</code>). Build a pipeline: after a
+          <code class="k-none">none</code>, each step stays <code class="k-none">none</code>, and its function does not run.
+        </p>
+      </div>
+      <nav class="links" aria-label="Site">
+        <a href="#playground">Playground</a>
+        <a href="#laws">Laws</a>
+        <a href="#api">API</a>
+        <a href="releases/">Releases</a>
+        <a href="status/">Status</a>
+        <a href="https://github.com/mark1russell7/optional">GitHub</a>
+        <button type="button" class="theme" id="theme" aria-label="Color theme">Theme: auto</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="playground" class="core" aria-labelledby="playground-title">
+        <h2 id="playground-title" class="sr">Pipeline playground</h2>
+        <div class="presets-row">
+          <span class="label" id="presets-label">Examples</span>
+          <div class="chips" id="presets" role="group" aria-labelledby="presets-label"></div>
+        </div>
+
+        <div class="card builder">
+          <div class="field">
+            <label class="label" for="value">1. Input <code>x</code></label>
+            <input id="value" class="mono" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="value-hint" />
+            <div class="chips" id="quick" role="group" aria-label="Quick inputs"></div>
+            <p class="hint" id="value-hint" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <span class="label" id="starts-label">2. Start</span>
+            <div class="seg" id="starts" role="radiogroup" aria-labelledby="starts-label"></div>
+          </div>
+          <div class="field">
+            <span class="label">3. Steps <span class="hint" id="steps-count"></span></span>
+            <ol class="steps" id="steps" aria-label="The steps of the pipeline"></ol>
+            <div class="chips palette" id="palette" role="group" aria-label="Add a step"></div>
+          </div>
+          <div class="field">
+            <span class="label" id="ends-label">4. End</span>
+            <div class="seg" id="ends" role="radiogroup" aria-labelledby="ends-label"></div>
+          </div>
+        </div>
+
+        <div class="card track-card">
+          <div class="result" id="result" role="status" aria-live="polite">
+            <span class="label">Result</span>
+            <output id="result-value" class="mono"></output>
+            <span class="kind" id="result-kind"></span>
+          </div>
+          <p class="summary mono" id="summary"></p>
+          <div class="lanes" aria-hidden="true"><span class="l-some">some</span><span class="l-none">none</span></div>
+          <ol class="track" id="track" aria-label="The value after each step"></ol>
+          <details class="codebox">
+            <summary>The TypeScript code of this pipeline</summary>
+            <div class="codeblock">
+              <pre><code id="code"></code></pre>
+              <button type="button" class="copy" id="copy-code">Copy</button>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="laws" class="section" aria-labelledby="laws-title">
+        <div class="section-head">
+          <h2 id="laws-title">The laws, checked live</h2>
+          <p class="hint">
+            The functions <code>map</code> and <code>flatMap</code> obey the functor laws and the monad laws. This panel checks each law on random
+            cases from a seed. A seed always gives the same cases.
+          </p>
+        </div>
+        <div class="card law-controls">
+          <div class="row">
+            <label class="ctl">Seed <input id="seed" class="mono" type="text" value="optional" spellcheck="false" autocomplete="off" /></label>
+            <label class="ctl">Cases <select id="count"></select></label>
+            <label class="ctl"><span>Your <code>x</code></span> <input id="typed" class="mono" type="text" inputmode="decimal" placeholder="a number" autocomplete="off" /></label>
+            <div class="buttons">
+              <button type="button" id="new-seed">New seed</button>
+              <button type="button" id="run-laws" class="primary">Check the laws</button>
+            </div>
+          </div>
+          <div class="row fns">
+            <span class="fn-group">Functor laws: <code>f</code> <select id="map-f" aria-label="f of the functor laws"></select> <code>g</code> <select id="map-g" aria-label="g of the functor laws"></select></span>
+            <span class="fn-group">Monad laws: <code>f</code> <select id="flat-f" aria-label="f of the monad laws"></select> <code>g</code> <select id="flat-g" aria-label="g of the monad laws"></select></span>
+          </div>
+          <label class="broken"><input type="checkbox" id="broken" /> <span>Use a broken <code>map</code> and <code>flatMap</code>: for <code>none</code>, they apply the function to 0.</span></label>
+          <p class="law-summary" id="law-summary" role="status" aria-live="polite"></p>
+          <p class="legend hint" aria-hidden="true">
+            <span class="cell pass present"></span> <code>some</code> case passes <span class="cell pass absent"></span> <code>none</code> case passes
+            <span class="cell fail present"></span> case fails. Select a square to see its case.
+          </p>
+        </div>
+        <div class="laws" id="law-list"></div>
+      </section>
+
+      <section id="api" class="section" aria-labelledby="api-title">
+        <div class="section-head">
+          <h2 id="api-title">API</h2>
+          <p class="hint">The page calls each example with the package, and shows the result.</p>
+        </div>
+        <div class="card table-card">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th scope="col">Export</th><th scope="col">What it does</th><th scope="col">Live example</th></tr>
+              </thead>
+              <tbody id="api-rows"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card install">
+          <h3>Install</h3>
+          <div class="codeblock">
+            <pre><code id="install-cmd">pnpm add @mark1russell7/optional</code></pre>
+            <button type="button" class="copy" data-copy="install-cmd">Copy</button>
+          </div>
+          <div class="codeblock">
+            <pre><code id="sample">import { fromNullable, getOr, map, some, type Optional } from "@mark1russell7/optional";
+
+const width: Optional&lt;number&gt; = some(4);
+getOr(map(width, (w) =&gt; w * 2), 0); // 8
+getOr(fromNullable(undefined), 0);  // 0</code></pre>
+            <button type="button" class="copy" data-copy="sample">Copy</button>
+          </div>
+          <p class="hint">The packages <a href="https://github.com/mark1russell7/render">render</a> and <a href="https://github.com/mark1russell7/vex">Vex</a> use this form.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>MIT license. <a href="https://github.com/mark1russell7/optional">github.com/mark1russell7/optional</a> · <span id="build"></span></p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

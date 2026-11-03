@@ -5,3 +5,6 @@ coverage/
 .vscode/
 .idea/
 # The built package (dist/) is committed: a github: dependency needs no build step.
+
+# The build of the site. The Pages workflow builds it.
+site/dist/

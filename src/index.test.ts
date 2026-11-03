@@ -48,7 +48,7 @@ describe("Optional", () => {
     );
   });
 
-  it("the sentinel form of Graph round-trips", () => {
+  it("the sentinel form round-trips", () => {
     fc.assert(
       fc.property(fc.oneof(fc.integer(), fc.constant(NotFound)), (value) => {
         const o = fromSentinel(value, NotFound);
