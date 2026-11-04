@@ -1,8 +1,9 @@
 // The start of the page: the theme, the playground, the laws, the API table and the build line.
 import { API, result } from "./api.ts";
-import { byId, copyText, h, setupTheme } from "@mark1russell7/site-pages/chrome";
+import { byId, copyText, h, setupTheme, showBuild } from "@mark1russell7/site-pages/chrome";
 import { LawPanel } from "./law-panel.ts";
 import { Playground } from "./playground.ts";
+import "@mark1russell7/site-pages/shell.css";
 import "./style.css";
 
 setupTheme(byId<HTMLButtonElement>("theme"), "optional-theme");
@@ -29,8 +30,4 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-c
   button.addEventListener("click", () => void copyText(button, byId(button.dataset["copy"]!).textContent ?? ""));
 }
 
-byId("build").append(
-  `Version ${__BUILD__.version}, build `,
-  __BUILD__.sha === "local" ? "local" : h("a", { href: `https://github.com/mark1russell7/optional/commit/${__BUILD__.sha}` }, __BUILD__.sha),
-  ` of ${__BUILD__.date}`,
-);
+showBuild(byId("build"), __BUILD__, "mark1russell7/optional");

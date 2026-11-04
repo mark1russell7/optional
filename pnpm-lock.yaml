@@ -197,8 +197,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@mark1russell7/site-pages':
-        specifier: ^0.1.10
-        version: 0.1.10
+        specifier: ^0.2.0
+        version: 0.2.0
     devDependencies:
       '@mark1russell7/cue':
         specifier: ^2.0.0
@@ -242,8 +242,8 @@ packages:
     resolution: {integrity: sha512-N5o3II0AClHgsWCWtzuBzckQdReydJnLUS8Kdt9hWXVpTzb0dxucrN1bWdDN+75YompOR1rAmsIX8zuHqoQdqA==}
     engines: {node: '>=22'}
 
-  '@mark1russell7/site-pages@0.1.10':
-    resolution: {integrity: sha512-dcMPqlWsxJ+fRvl5cZH01a+/94ujk5ogRfg5puO2JC7pvE5jq1IV48UrcbtP+zcS5r9zMUbvUVz74E9xQYY8FQ==}
+  '@mark1russell7/site-pages@0.2.0':
+    resolution: {integrity: sha512-dahr/WG5PFj/zrcTk/NvufB6N3Tswc60vvGregftq9nraEgeHhaEr+s0zr/gbcOrK7Cz2EHiyO5F2inHc2utYw==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -784,7 +784,7 @@ snapshots:
 
   '@mark1russell7/rigor-generators@0.1.1': {}
 
-  '@mark1russell7/site-pages@0.1.10': {}
+  '@mark1russell7/site-pages@0.2.0': {}
 
   '@mark1russell7/ste-lint@https://codeload.github.com/mark1russell7/ste-lint/tar.gz/f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7':
     dependencies:
