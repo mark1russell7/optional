@@ -990,7 +990,6 @@ main {
 table {
   border-collapse: collapse;
   width: 100%;
-  min-width: 46rem;
   font-size: 0.9rem;
 }
 
@@ -1037,6 +1036,49 @@ td.live output {
   font-size: 0.85rem;
   font-weight: 650;
   color: var(--value);
+}
+
+@media (min-width: 768px) {
+  table {
+    min-width: 46rem;
+  }
+}
+
+/* On a phone each row is a card, so the table does not go out of view. */
+@media (max-width: 767px) {
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+  }
+
+  tr {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  td {
+    padding: 0.25rem 0.8rem;
+    border-bottom: 0;
+  }
+
+  td.live code,
+  td.live output {
+    overflow-wrap: anywhere;
+  }
 }
 
 .install {
