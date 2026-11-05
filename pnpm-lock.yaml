@@ -195,7 +195,7 @@ importers:
         version: link:..
       '@mark1russell7/rigor-generators':
         specifier: ^0.1.1
-        version: 0.1.1
+        version: 0.1.5
       '@mark1russell7/site-pages':
         specifier: ^0.2.0
         version: 0.2.0
@@ -238,8 +238,8 @@ packages:
     engines: {node: '>=22'}
     hasBin: true
 
-  '@mark1russell7/rigor-generators@0.1.1':
-    resolution: {integrity: sha512-N5o3II0AClHgsWCWtzuBzckQdReydJnLUS8Kdt9hWXVpTzb0dxucrN1bWdDN+75YompOR1rAmsIX8zuHqoQdqA==}
+  '@mark1russell7/rigor-generators@0.1.5':
+    resolution: {integrity: sha512-YkABrG6+AV4oZKWoSIayDGxKTqcTMbp/eGa+3u00X09Jv9TfpHFDeqHlEQARMBzJ/kvy/EMNIXQZMGa3Nobuzw==}
     engines: {node: '>=22'}
 
   '@mark1russell7/site-pages@0.2.0':
@@ -782,7 +782,7 @@ snapshots:
 
   '@mark1russell7/cue@2.1.1': {}
 
-  '@mark1russell7/rigor-generators@0.1.1': {}
+  '@mark1russell7/rigor-generators@0.1.5': {}
 
   '@mark1russell7/site-pages@0.2.0': {}
 
