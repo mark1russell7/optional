@@ -1,6 +1,7 @@
 /**
- * The Optional of the family: a value that is present (`Some`) or absent (`None`). The packages render and Vex use
- * this form. `fromSentinel` and `toSentinel` convert between this form and a sentinel form.
+ * The Optional and the Result of the family. An optional is a value that is present (`Some`) or absent (`None`). The
+ * packages render and Vex use this form. `fromSentinel` and `toSentinel` convert between this form and a sentinel form.
+ * A result is a value (`Ok`) or an error (`Err`). `fromOptional` and `toOptional` convert between the two.
  */
 /** The absence of a value. */
 export type None = {
@@ -44,4 +45,52 @@ export declare const fromNullable: <T>(value: T | null | undefined) => Optional<
 export declare const fromSentinel: <T, S>(value: T | S, sentinel: S) => Optional<T>;
 /** This function changes an optional into the sentinel form: an absent value becomes `sentinel`. */
 export declare const toSentinel: <T, S>(o: Optional<T>, sentinel: S) => T | S;
+/** A value of a step that succeeded. */
+export type Ok<T> = {
+    readonly tag: "ok";
+    readonly value: T;
+};
+/** The error of a step that failed. */
+export type Err<E> = {
+    readonly tag: "err";
+    readonly error: E;
+};
+/**
+ * A value (`Ok`) or an error (`Err`). It replaces a thrown exception when the caller must handle the error. It has the
+ * same algebra as `Optional`, but its failure case carries an error.
+ */
+export type Result<T, E> = Ok<T> | Err<E>;
+/** This function wraps a value of a step that succeeded. */
+export declare const ok: <T>(value: T) => Ok<T>;
+/** This function wraps the error of a step that failed. */
+export declare const err: <E>(error: E) => Err<E>;
+/** This function tells if a result is a value. */
+export declare const isOk: <T, E>(r: Result<T, E>) => r is Ok<T>;
+/** This function tells if a result is an error. */
+export declare const isErr: <T, E>(r: Result<T, E>) => r is Err<E>;
+/** This function applies `f` to a value. An error stays the same. */
+export declare const mapResult: <T, U, E>(r: Result<T, E>, f: (v: T) => U) => Result<U, E>;
+/** This function applies `f` to an error. A value stays the same. */
+export declare const mapErr: <T, E, F>(r: Result<T, E>, f: (e: E) => F) => Result<T, F>;
+/** This function applies `f`, which gives a result, to a value. An error stays the same. */
+export declare const flatMapResult: <T, U, E, F = E>(r: Result<T, E>, f: (v: T) => Result<U, F>) => Result<U, E | F>;
+/** This function gives the value, or `fallback` for an error. */
+export declare const getOkOr: <T, U, E>(r: Result<T, E>, fallback: U) => T | U;
+/**
+ * This function starts `f`, and gives its value as `ok`. When `f` throws, the result is `err` of the thrown value, or of
+ * `onError` of the thrown value.
+ */
+export declare function tryCatch<T>(f: () => T): Result<T, unknown>;
+export declare function tryCatch<T, E>(f: () => T, onError: (thrown: unknown) => E): Result<T, E>;
+/**
+ * This function starts `f` and waits for its promise. It gives the value as `ok`. When `f` throws or its promise
+ * rejects, the result is `err` of the reason, or of `onError` of the reason. The promise of this function does not
+ * reject, except when `onError` throws.
+ */
+export declare function tryCatchAsync<T>(f: () => T | PromiseLike<T>): Promise<Result<T, unknown>>;
+export declare function tryCatchAsync<T, E>(f: () => T | PromiseLike<T>, onError: (thrown: unknown) => E): Promise<Result<T, E>>;
+/** This function changes an optional into a result: a present value becomes `ok`, and `none` becomes `err(error)`. */
+export declare const fromOptional: <T, E>(o: Optional<T>, error: E) => Result<T, E>;
+/** This function changes a result into an optional: a value becomes `some`, and an error becomes `none`. */
+export declare const toOptional: <T, E>(r: Result<T, E>) => Optional<T>;
 //# sourceMappingURL=index.d.ts.map

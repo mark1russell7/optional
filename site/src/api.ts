@@ -1,6 +1,33 @@
 // The API table of the README, with one live example for each export. The page calls each example
 // with the functions of the package and shows the result.
-import { filter, flatMap, fromNullable, fromSentinel, getOr, isNone, isSome, map, none, some, toSentinel, unwrap, type Optional } from "@mark1russell7/optional";
+import {
+  err,
+  filter,
+  flatMap,
+  flatMapResult,
+  fromNullable,
+  fromOptional,
+  fromSentinel,
+  getOkOr,
+  getOr,
+  isErr,
+  isNone,
+  isOk,
+  isSome,
+  map,
+  mapErr,
+  mapResult,
+  none,
+  ok,
+  some,
+  toOptional,
+  toSentinel,
+  tryCatch,
+  tryCatchAsync,
+  unwrap,
+  type Optional,
+  type Result,
+} from "@mark1russell7/optional";
 import { showOptional, showValue } from "./pipeline.ts";
 
 /** One example of an export: its code and the call that gives its result. */
@@ -79,16 +106,72 @@ export const API: readonly ApiRow[] = [
       { code: "toSentinel(none, -1)", run: () => toSentinel(none, -1) },
     ],
   },
+  {
+    names: ["Result<T, E>", "Ok<T>", "Err<E>"],
+    what: "The types: { tag: \"ok\", value } or { tag: \"err\", error }.",
+    examples: [{ code: "JSON.stringify(err(\"no key\"))", run: () => JSON.stringify(err("no key")) }],
+  },
+  {
+    names: ["ok(value)", "err(error)", "isOk(r)", "isErr(r)"],
+    what: "The two kinds of result, and their type guards.",
+    examples: [
+      { code: "ok(4)", run: () => ok(4) },
+      { code: "isErr(err(1))", run: () => isErr(err(1)) },
+      { code: "isOk(err(1))", run: () => isOk(err(1)) },
+    ],
+  },
+  {
+    names: ["mapResult(r, f)", "flatMapResult(r, f)", "mapErr(r, f)"],
+    what: "The function f applies to a value, or to an error for mapErr. The other kind stays the same.",
+    examples: [
+      { code: "mapResult(ok(4), (w) => w * 2)", run: () => mapResult(ok(4), (w: number) => w * 2) },
+      { code: "flatMapResult(ok(3), (x) => (x > 5 ? ok(x) : err(\"small\")))", run: () => flatMapResult(ok(3), (x: number) => (x > 5 ? ok(x) : err("small"))) },
+      { code: "mapErr(err(404), (code) => `HTTP ${code}`)", run: () => mapErr(err(404), (code: number) => `HTTP ${String(code)}`) },
+    ],
+  },
+  {
+    names: ["getOkOr(r, fallback)"],
+    what: "The value, or the fallback for an error.",
+    examples: [{ code: "getOkOr(err(\"no key\"), 0)", run: () => getOkOr(err("no key"), 0) }],
+  },
+  {
+    names: ["tryCatch(f, onError?)", "tryCatchAsync(f, onError?)"],
+    what: "ok of the value of f, or err of the thrown value or the rejection.",
+    examples: [
+      { code: "tryCatch(() => JSON.parse(\"{\"), (e) => e.name)", run: () => tryCatch(() => JSON.parse("{") as unknown, (e) => (e as Error).name) },
+      { code: "tryCatch(() => JSON.parse(\"2\"))", run: () => tryCatch(() => JSON.parse("2") as unknown) },
+      { code: "typeof tryCatchAsync(async () => 1).then", run: () => typeof tryCatchAsync(async () => 1).then },
+    ],
+  },
+  {
+    names: ["fromOptional(o, error)", "toOptional(r)"],
+    what: "The change between an optional and a result.",
+    examples: [
+      { code: "fromOptional(none, \"absent\")", run: () => fromOptional(none, "absent") },
+      { code: "toOptional(err(1))", run: () => toOptional(err(1)) },
+    ],
+  },
 ];
+
+function isResult(value: unknown): value is Result<unknown, unknown> {
+  if (typeof value !== "object" || value === null || !("tag" in value)) return false;
+  return (value.tag === "ok" && "value" in value) || (value.tag === "err" && "error" in value);
+}
+
+/** This function gives the text of a result: `ok(x)` or `err(x)`. */
+export function showResult(r: Result<unknown, unknown>): string {
+  return isOk(r) ? `ok(${showValue(r.value)})` : `err(${showValue(r.error)})`;
+}
 
 function isOptional(value: unknown): value is Optional<unknown> {
   if (typeof value !== "object" || value === null || !("tag" in value)) return false;
   return value.tag === "none" || (value.tag === "some" && "value" in value);
 }
 
-/** This function gives the result of an example as text. An optional shows as `some(x)` or `none`, and a string shows as it is. */
+/** This function gives the result of an example as text. An optional shows as `some(x)` or `none`, a result as `ok(x)` or `err(x)`, and a string as it is. */
 export function result(example: Example): string {
   const value = example.run();
   if (typeof value === "string") return value;
+  if (isResult(value)) return showResult(value);
   return isOptional(value) ? showOptional(value) : showValue(value);
 }

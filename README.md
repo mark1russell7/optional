@@ -1,6 +1,6 @@
 # optional
 
-The Optional of the family: a value that is present (`some`) or absent (`none`). It replaces `null`, `undefined` and exceptions in a total evaluation.
+The Optional and the Result of the family. An optional is a value that is present (`some`) or absent (`none`). It replaces `null`, `undefined` and exceptions in a total evaluation. A result is a value (`ok`) or an error (`err`).
 
 ```ts
 import { fromNullable, getOr, map, none, some, type Optional } from "@mark1russell7/optional";
@@ -29,6 +29,28 @@ getOr(fromNullable(undefined), 0);  // 0
 | `unwrap(o)`, `getOr(o, fallback)` | The present value, or `undefined`, or the fallback |
 | `fromNullable(value)` | `none` for `null` and `undefined`, else `some(value)` |
 | `fromSentinel(value, sentinel)`, `toSentinel(o, sentinel)` | The change between this form and a sentinel form |
+| `Result<T, E>`, `Ok<T>`, `Err<E>` | The types: `{ tag: "ok", value }` or `{ tag: "err", error }` |
+| `ok(value)`, `err(error)` | The two kinds of result |
+| `isOk(r)`, `isErr(r)` | The type guards |
+| `mapResult(r, f)`, `flatMapResult(r, f)` | `f` applies to a value. An error stays the same. The tests check the functor laws and the monad laws. |
+| `mapErr(r, f)` | `f` applies to an error. A value stays the same. The tests check the functor laws. |
+| `getOkOr(r, fallback)` | The value, or the fallback for an error |
+| `tryCatch(f, onError?)`, `tryCatchAsync(f, onError?)` | `ok` of the value of `f`, or `err` of the thrown value or the rejection |
+| `fromOptional(o, error)`, `toOptional(r)` | The change between an optional and a result. The tests check the round trip. |
+
+## Results
+
+A result carries the error of a step that failed. `flatMapResult` stops at the first error.
+
+```ts
+import { err, flatMapResult, getOkOr, mapErr, ok, tryCatch, type Result } from "@mark1russell7/optional";
+
+const parse = (text: string): Result<unknown, string> => mapErr(tryCatch(() => JSON.parse(text) as unknown), () => "not JSON");
+const width = (value: unknown): Result<number, string> => (typeof value === "number" ? ok(value) : err("not a number"));
+
+getOkOr(flatMapResult(parse("4"), width), 0);   // 4
+flatMapResult(parse("{"), width);               // { tag: "err", error: "not JSON" }
+```
 
 ## Site
 

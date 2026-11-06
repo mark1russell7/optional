@@ -54,6 +54,6 @@ check("the broken implementation fails the identity laws on o", await until(() =
 click("#broken");
 check("the package passes again", await until(() => failing().length === 0), failing().join());
 
-check("the API table shows a live result for each row", $$("#api-rows tr").length === 8 && $$("#api-rows output").every((o) => (o.textContent ?? "") !== ""), `${$$("#api-rows tr").length} rows`);
+check("the API table shows a live result for each row", $$("#api-rows tr").length === 14 && $$("#api-rows output").every((o) => (o.textContent ?? "") !== ""), `${$$("#api-rows tr").length} rows`);
 
 export {};
