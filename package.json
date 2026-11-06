@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package",
   "name": "@mark1russell7/optional",
-  "version": "1.1.0",
-  "description": "The Optional of the family: a value that is present (some) or absent (none), for render and Vex.",
+  "version": "1.2.0",
+  "description": "The Optional and the Result of the family: a value that is present (some) or absent (none), and a value (ok) or an error (err).",
   "license": "MIT",
   "repository": {
     "type": "git",
