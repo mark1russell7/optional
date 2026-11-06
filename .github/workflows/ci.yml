@@ -53,7 +53,7 @@ jobs:
   # waits for the whole gate.
   ci-ok:
     name: CI OK
-    if: always()
+    if: ${{ !cancelled() }}
     needs: [check]
     runs-on: ubuntu-latest
     timeout-minutes: 2
