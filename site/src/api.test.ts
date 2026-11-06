@@ -15,5 +15,18 @@ describe("the API table", () => {
     expect(all["fromNullable(undefined)"]).toBe("none");
     expect(all["unwrap(none)"]).toBe("undefined");
     expect(all["JSON.stringify(some(4))"]).toBe('{"tag":"some","value":4}');
+    expect(all['JSON.stringify(err("no key"))']).toBe('{"tag":"err","error":"no key"}');
+    expect(all["ok(4)"]).toBe("ok(4)");
+    expect(all["isErr(err(1))"]).toBe("true");
+    expect(all["isOk(err(1))"]).toBe("false");
+    expect(all["mapResult(ok(4), (w) => w * 2)"]).toBe("ok(8)");
+    expect(all['flatMapResult(ok(3), (x) => (x > 5 ? ok(x) : err("small")))']).toBe('err("small")');
+    expect(all["mapErr(err(404), (code) => `HTTP ${code}`)"]).toBe('err("HTTP 404")');
+    expect(all['getOkOr(err("no key"), 0)']).toBe("0");
+    expect(all['tryCatch(() => JSON.parse("{"), (e) => e.name)']).toBe('err("SyntaxError")');
+    expect(all['tryCatch(() => JSON.parse("2"))']).toBe("ok(2)");
+    expect(all["typeof tryCatchAsync(async () => 1).then"]).toBe("function");
+    expect(all['fromOptional(none, "absent")']).toBe('err("absent")');
+    expect(all["toOptional(err(1))"]).toBe("none");
   });
 });
