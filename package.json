@@ -50,6 +50,9 @@
   },
   "conventions": {
     "rules": {
+      "shared-ci": {
+        "off": "The ruleset of main requires the checks check (node 22), check (node 24) and check (node 26). A call of the shared CI gives other check names, and only the owner changes the ruleset."
+      },
       "no-build-output": {
         "off": "Git keeps dist/, because render and Vex install this package from git, and a git dependency needs no build at install. CI checks that dist/ is the build of src/."
       },
