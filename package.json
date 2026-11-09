@@ -44,15 +44,13 @@
     "@mark1russell7/cue": "^2.0.0",
     "@mark1russell7/ste-lint": "github:mark1russell7/ste-lint#f597d6c1e09bcfcb487bb575825d6d5f29e9e0c7",
     "@types/node": "^26.6.4",
+    "@vitest/coverage-v8": "^5.0.3",
     "fast-check": "^4.10.2",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
   },
   "conventions": {
     "rules": {
-      "shared-ci": {
-        "off": "The ruleset of main requires the checks check (node 22), check (node 24) and check (node 26). A call of the shared CI gives other check names, and only the owner changes the ruleset."
-      },
       "no-build-output": {
         "off": "Git keeps dist/, because render and Vex install this package from git, and a git dependency needs no build at install. CI checks that dist/ is the build of src/."
       },
