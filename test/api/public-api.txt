@@ -1,0 +1,144 @@
+# The public API of @mark1russell7/optional
+#
+# The names of each entry of the exports field, and the declaration of each name, without comments
+# and private members. The command `api-report check` compares this file with the built .d.ts files.
+# To accept a change of the API, start the build, then `api-report update`, and review the diff.
+
+## . (dist/index.d.ts): names
+
+Err: dist/index.d.ts#Err
+None: dist/index.d.ts#None
+Ok: dist/index.d.ts#Ok
+Optional: dist/index.d.ts#Optional
+Result: dist/index.d.ts#Result
+Some: dist/index.d.ts#Some
+err: dist/index.d.ts#err
+filter: dist/index.d.ts#filter
+flatMap: dist/index.d.ts#flatMap
+flatMapResult: dist/index.d.ts#flatMapResult
+fromNullable: dist/index.d.ts#fromNullable
+fromOptional: dist/index.d.ts#fromOptional
+fromSentinel: dist/index.d.ts#fromSentinel
+getOkOr: dist/index.d.ts#getOkOr
+getOr: dist/index.d.ts#getOr
+isErr: dist/index.d.ts#isErr
+isNone: dist/index.d.ts#isNone
+isOk: dist/index.d.ts#isOk
+isSome: dist/index.d.ts#isSome
+map: dist/index.d.ts#map
+mapErr: dist/index.d.ts#mapErr
+mapResult: dist/index.d.ts#mapResult
+none: dist/index.d.ts#none
+ok: dist/index.d.ts#ok
+some: dist/index.d.ts#some
+toOptional: dist/index.d.ts#toOptional
+toSentinel: dist/index.d.ts#toSentinel
+tryCatch: dist/index.d.ts#tryCatch
+tryCatchAsync: dist/index.d.ts#tryCatchAsync
+unwrap: dist/index.d.ts#unwrap
+
+## Declarations
+
+### dist/index.d.ts#Err
+export type Err<E> = {
+    readonly tag: "err";
+    readonly error: E;
+};
+
+### dist/index.d.ts#None
+export type None = {
+    readonly tag: "none";
+};
+
+### dist/index.d.ts#Ok
+export type Ok<T> = {
+    readonly tag: "ok";
+    readonly value: T;
+};
+
+### dist/index.d.ts#Optional
+export type Optional<T> = None | Some<T>;
+
+### dist/index.d.ts#Result
+export type Result<T, E> = Ok<T> | Err<E>;
+
+### dist/index.d.ts#Some
+export type Some<T> = {
+    readonly tag: "some";
+    readonly value: T;
+};
+
+### dist/index.d.ts#err
+export declare const err: <E>(error: E) => Err<E>;
+
+### dist/index.d.ts#filter
+export declare function filter<T, S extends T>(o: Optional<T>, p: (v: T) => v is S): Optional<S>;
+export declare function filter<T>(o: Optional<T>, p: (v: T) => boolean): Optional<T>;
+
+### dist/index.d.ts#flatMap
+export declare const flatMap: <T, U>(o: Optional<T>, f: (v: T) => Optional<U>) => Optional<U>;
+
+### dist/index.d.ts#flatMapResult
+export declare const flatMapResult: <T, U, E, F = E>(r: Result<T, E>, f: (v: T) => Result<U, F>) => Result<U, E | F>;
+
+### dist/index.d.ts#fromNullable
+export declare const fromNullable: <T>(value: T | null | undefined) => Optional<NonNullable<T>>;
+
+### dist/index.d.ts#fromOptional
+export declare const fromOptional: <T, E>(o: Optional<T>, error: E) => Result<T, E>;
+
+### dist/index.d.ts#fromSentinel
+export declare const fromSentinel: <T, S>(value: T | S, sentinel: S) => Optional<T>;
+
+### dist/index.d.ts#getOkOr
+export declare const getOkOr: <T, U, E>(r: Result<T, E>, fallback: U) => T | U;
+
+### dist/index.d.ts#getOr
+export declare const getOr: <T, U>(o: Optional<T>, fallback: U) => T | U;
+
+### dist/index.d.ts#isErr
+export declare const isErr: <T, E>(r: Result<T, E>) => r is Err<E>;
+
+### dist/index.d.ts#isNone
+export declare const isNone: <T>(o: Optional<T>) => o is None;
+
+### dist/index.d.ts#isOk
+export declare const isOk: <T, E>(r: Result<T, E>) => r is Ok<T>;
+
+### dist/index.d.ts#isSome
+export declare const isSome: <T>(o: Optional<T>) => o is Some<T>;
+
+### dist/index.d.ts#map
+export declare const map: <T, U>(o: Optional<T>, f: (v: T) => U) => Optional<U>;
+
+### dist/index.d.ts#mapErr
+export declare const mapErr: <T, E, F>(r: Result<T, E>, f: (e: E) => F) => Result<T, F>;
+
+### dist/index.d.ts#mapResult
+export declare const mapResult: <T, U, E>(r: Result<T, E>, f: (v: T) => U) => Result<U, E>;
+
+### dist/index.d.ts#none
+export declare const none: None;
+
+### dist/index.d.ts#ok
+export declare const ok: <T>(value: T) => Ok<T>;
+
+### dist/index.d.ts#some
+export declare const some: <T>(value: T) => Some<T>;
+
+### dist/index.d.ts#toOptional
+export declare const toOptional: <T, E>(r: Result<T, E>) => Optional<T>;
+
+### dist/index.d.ts#toSentinel
+export declare const toSentinel: <T, S>(o: Optional<T>, sentinel: S) => T | S;
+
+### dist/index.d.ts#tryCatch
+export declare function tryCatch<T>(f: () => T): Result<T, unknown>;
+export declare function tryCatch<T, E>(f: () => T, onError: (thrown: unknown) => E): Result<T, E>;
+
+### dist/index.d.ts#tryCatchAsync
+export declare function tryCatchAsync<T>(f: () => T | PromiseLike<T>): Promise<Result<T, unknown>>;
+export declare function tryCatchAsync<T, E>(f: () => T | PromiseLike<T>, onError: (thrown: unknown) => E): Promise<Result<T, E>>;
+
+### dist/index.d.ts#unwrap
+export declare const unwrap: <T>(o: Optional<T>) => T | undefined;
