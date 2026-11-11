@@ -19,7 +19,7 @@ jobs:
   # The shared CI of mark1russell7 (reusable-ci.yml of the template, CI.md). It starts each standard script that
   # package.json has: typecheck, check:conventions, test, build and lint:ste, on each Node.js version of the matrix.
   ci:
-    uses: mark1russell7/template/.github/workflows/reusable-ci.yml@ddf7e495fc88b536e2ea89bb8271ac2d50b28baf # main
+    uses: mark1russell7/template/.github/workflows/reusable-ci.yml@df50ea90e2c916035f098688a7a70fcb9ee8dd09 # main
     permissions:
       contents: read
     with:
