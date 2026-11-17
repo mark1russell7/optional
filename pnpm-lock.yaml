@@ -200,8 +200,8 @@ importers:
         specifier: workspace:*
         version: link:..
       '@mark1russell7/rigor-generators':
-        specifier: ^0.1.1
-        version: 0.1.19
+        specifier: ^0.2.0
+        version: 0.2.0
       '@mark1russell7/site-pages':
         specifier: ^0.7.0
         version: 0.7.0
@@ -286,8 +286,8 @@ packages:
     resolution: {integrity: sha512-C94Q4C31aZ8UXx1R0JSBV7DiQFl5tVpbFxHxHzHaSqr3dTgmCkEvLrvlUV8/0/GZqPhQYG9cbX6GOlqfRj/h4g==}
     engines: {node: '>=22'}
 
-  '@mark1russell7/rigor-generators@0.1.19':
-    resolution: {integrity: sha512-WIo/zJhj8RRRdNCz8JKEXOMZ4iPSh1h3igFGiWgRoAZGgETPuW7bP2oBgKVbMKEHn66c+hoXuCnwrIjguBaByA==}
+  '@mark1russell7/rigor-generators@0.2.0':
+    resolution: {integrity: sha512-eTyJhK4Nowx1KQ3QrsQqLiAlhFoL+8m1OT6He+X0Lf0G/0f9OyQC8ponQLViQKRkP/ef10B6oACFjtjnKErobg==}
     engines: {node: '>=22'}
 
   '@mark1russell7/rigor-statistics@0.2.5':
@@ -926,7 +926,7 @@ snapshots:
 
   '@mark1russell7/rigor-generators@0.1.16': {}
 
-  '@mark1russell7/rigor-generators@0.1.19': {}
+  '@mark1russell7/rigor-generators@0.2.0': {}
 
   '@mark1russell7/rigor-statistics@0.2.5':
     dependencies:
