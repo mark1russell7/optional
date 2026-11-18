@@ -52,6 +52,35 @@ getOkOr(flatMapResult(parse("4"), width), 0);   // 4
 flatMapResult(parse("{"), width);               // { tag: "err", error: "not JSON" }
 ```
 
+## Typed reads
+
+The entry `@mark1russell7/optional/read` reads unknown values, for example the value of a parsed JSON text. It has no dependency.
+
+- A reader gives a value of one type, or `undefined` for a value of a different type.
+- A field reader reads an own field of a record. A field of the prototype gives `undefined`.
+- A decoder gives a `Result`: the value, or the path of the first bad field.
+
+| Export | What it does |
+|---|---|
+| `isRecord(value)` | `true` for an object that is not an array and not `null` |
+| `readText`, `readNumber`, `readBoolean`, `readRecord` | A text with no space at its ends (a blank text gives `undefined`), a finite number, a boolean, a record |
+| `readTime(value)` | The milliseconds of an ISO 8601 text: a date, or a date and a time with a zone. Other texts give `undefined`. |
+| `readArray(value, item)` | The items that the reader `item` reads. The reader drops each other item. |
+| `fieldOf`, `textOf`, `numberOf`, `booleanOf`, `timeOf`, `recordOf`, `arrayOf` | The same reads on an own field of a record |
+| `decodeText`, `decodeNumber`, `decodeBoolean`, `decodeTime`, `decodeRecord`, `decoderOf(reader, expected)` | Decoders of one value |
+| `decodeArray(item)`, `decodeFields(shape)`, `decodeOptional(decoder)` | Decoders of an array, of a record and of an optional value |
+| `DecodeError`, `pathText(path)`, `kindOf(value)` | The error: the path as keys and indexes, the expected value and the kind of the found value. It does not hold the value. |
+
+```ts
+import { decodeArray, decodeFields, decodeText, decodeTime, pathText, textOf } from "@mark1russell7/optional/read";
+
+textOf({ title: " Flood " }, "title"); // "Flood"
+const feed = decodeFields({ items: decodeArray(decodeFields({ id: decodeText, sent: decodeTime })) });
+const result = feed({ items: [{ id: "a", sent: "2026-11-18T10:00:00Z" }, { id: "b", sent: "Nov 18" }] });
+// { tag: "err", error: { path: ["items", 1, "sent"], expected: "time", found: "string" } }
+if (result.tag === "err") pathText(result.error.path); // "$.items[1].sent"
+```
+
 ## Site
 
 The site [mark1russell7.github.io/optional](https://mark1russell7.github.io/optional/) shows the package live in the browser:

@@ -37,6 +37,42 @@ tryCatch: dist/index.d.ts#tryCatch
 tryCatchAsync: dist/index.d.ts#tryCatchAsync
 unwrap: dist/index.d.ts#unwrap
 
+## ./read (dist/read.d.ts): names
+
+DecodeError: dist/read.d.ts#DecodeError
+Decoded: dist/read.d.ts#Decoded
+Decoder: dist/read.d.ts#Decoder
+Fields: dist/read.d.ts#Fields
+Path: dist/read.d.ts#Path
+Reader: dist/read.d.ts#Reader
+Shape: dist/read.d.ts#Shape
+ValueKind: dist/read.d.ts#ValueKind
+arrayOf: dist/read.d.ts#arrayOf
+booleanOf: dist/read.d.ts#booleanOf
+decodeArray: dist/read.d.ts#decodeArray
+decodeBoolean: dist/read.d.ts#decodeBoolean
+decodeFields: dist/read.d.ts#decodeFields
+decodeNumber: dist/read.d.ts#decodeNumber
+decodeOptional: dist/read.d.ts#decodeOptional
+decodeRecord: dist/read.d.ts#decodeRecord
+decodeText: dist/read.d.ts#decodeText
+decodeTime: dist/read.d.ts#decodeTime
+decoderOf: dist/read.d.ts#decoderOf
+fieldOf: dist/read.d.ts#fieldOf
+isRecord: dist/read.d.ts#isRecord
+kindOf: dist/read.d.ts#kindOf
+numberOf: dist/read.d.ts#numberOf
+pathText: dist/read.d.ts#pathText
+readArray: dist/read.d.ts#readArray
+readBoolean: dist/read.d.ts#readBoolean
+readNumber: dist/read.d.ts#readNumber
+readRecord: dist/read.d.ts#readRecord
+readText: dist/read.d.ts#readText
+readTime: dist/read.d.ts#readTime
+recordOf: dist/read.d.ts#recordOf
+textOf: dist/read.d.ts#textOf
+timeOf: dist/read.d.ts#timeOf
+
 ## Declarations
 
 ### dist/index.d.ts#Err
@@ -142,3 +178,108 @@ export declare function tryCatchAsync<T, E>(f: () => T | PromiseLike<T>, onError
 
 ### dist/index.d.ts#unwrap
 export declare const unwrap: <T>(o: Optional<T>) => T | undefined;
+
+### dist/read.d.ts#DecodeError
+export interface DecodeError {
+    readonly path: Path;
+    readonly expected: string;
+    readonly found: ValueKind;
+}
+
+### dist/read.d.ts#Decoded
+export type Decoded<D> = D extends Decoder<infer T> ? T : never;
+
+### dist/read.d.ts#Decoder
+export type Decoder<T> = (value: unknown) => Result<T, DecodeError>;
+
+### dist/read.d.ts#Fields
+export type Fields = Readonly<Record<string, unknown>>;
+
+### dist/read.d.ts#Path
+export type Path = readonly (string | number)[];
+
+### dist/read.d.ts#Reader
+export type Reader<T> = (value: unknown) => T | undefined;
+
+### dist/read.d.ts#Shape
+export type Shape = Readonly<Record<string, Decoder<unknown>>>;
+
+### dist/read.d.ts#ValueKind
+export type ValueKind = "undefined" | "null" | "array" | "object" | "string" | "number" | "boolean" | "bigint" | "symbol" | "function";
+
+### dist/read.d.ts#arrayOf
+export declare function arrayOf<T>(value: unknown, key: string, item: Reader<T>): readonly T[] | undefined;
+
+### dist/read.d.ts#booleanOf
+export declare function booleanOf(value: unknown, key: string): boolean | undefined;
+
+### dist/read.d.ts#decodeArray
+export declare function decodeArray<T>(item: Decoder<T>): Decoder<readonly T[]>;
+
+### dist/read.d.ts#decodeBoolean
+export declare const decodeBoolean: Decoder<boolean>;
+
+### dist/read.d.ts#decodeFields
+export declare function decodeFields<S extends Shape>(shape: S): Decoder<{
+    readonly [K in keyof S]: Decoded<S[K]>;
+}>;
+
+### dist/read.d.ts#decodeNumber
+export declare const decodeNumber: Decoder<number>;
+
+### dist/read.d.ts#decodeOptional
+export declare function decodeOptional<T>(decoder: Decoder<T>): Decoder<T | undefined>;
+
+### dist/read.d.ts#decodeRecord
+export declare const decodeRecord: Decoder<Fields>;
+
+### dist/read.d.ts#decodeText
+export declare const decodeText: Decoder<string>;
+
+### dist/read.d.ts#decodeTime
+export declare const decodeTime: Decoder<number>;
+
+### dist/read.d.ts#decoderOf
+export declare function decoderOf<T>(reader: Reader<T>, expected: string): Decoder<T>;
+
+### dist/read.d.ts#fieldOf
+export declare function fieldOf(value: unknown, key: string): unknown;
+
+### dist/read.d.ts#isRecord
+export declare function isRecord(value: unknown): value is Fields;
+
+### dist/read.d.ts#kindOf
+export declare function kindOf(value: unknown): ValueKind;
+
+### dist/read.d.ts#numberOf
+export declare function numberOf(value: unknown, key: string): number | undefined;
+
+### dist/read.d.ts#pathText
+export declare function pathText(path: Path): string;
+
+### dist/read.d.ts#readArray
+export declare function readArray<T>(value: unknown, item: Reader<T>): readonly T[] | undefined;
+
+### dist/read.d.ts#readBoolean
+export declare function readBoolean(value: unknown): boolean | undefined;
+
+### dist/read.d.ts#readNumber
+export declare function readNumber(value: unknown): number | undefined;
+
+### dist/read.d.ts#readRecord
+export declare function readRecord(value: unknown): Fields | undefined;
+
+### dist/read.d.ts#readText
+export declare function readText(value: unknown): string | undefined;
+
+### dist/read.d.ts#readTime
+export declare function readTime(value: unknown): number | undefined;
+
+### dist/read.d.ts#recordOf
+export declare function recordOf(value: unknown, key: string): Fields | undefined;
+
+### dist/read.d.ts#textOf
+export declare function textOf(value: unknown, key: string): string | undefined;
+
+### dist/read.d.ts#timeOf
+export declare function timeOf(value: unknown, key: string): number | undefined;
