@@ -61,10 +61,10 @@
         "off": "Git keeps dist/, because render and Vex install this package from git, and a git dependency needs no build at install. CI checks that dist/ is the build of src/."
       },
       "typed-scripts": {
-        "ignore": [
+        "generated": [
           "dist/**"
         ],
-        "reason": "dist/ is the build output of src/, which is TypeScript."
+        "reason": "tsc builds dist/ from src/, which is TypeScript."
       }
     }
   }
