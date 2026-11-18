@@ -59,6 +59,7 @@ The entry `@mark1russell7/optional/read` reads unknown values, for example the v
 - A reader gives a value of one type, or `undefined` for a value of a different type.
 - A field reader reads an own field of a record. A field of the prototype gives `undefined`.
 - A decoder gives a `Result`: the value, or the path of the first bad field.
+- Use `readArray` when one bad item must not stop the other items, for example the entries of a feed. Use `decodeArray` when each item must be correct.
 
 | Export | What it does |
 |---|---|
