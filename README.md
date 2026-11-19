@@ -64,6 +64,7 @@ The entry `@mark1russell7/optional/read` reads unknown values, for example the v
 | Export | What it does |
 |---|---|
 | `isRecord(value)` | `true` for an object that is not an array and not `null` |
+| `isPlainObject(value)` | `true` for a record whose prototype is `Object.prototype` or `null`. A class instance, a `Date` and a `Map` give `false`. |
 | `readText`, `readNumber`, `readBoolean`, `readRecord` | A text with no space at its ends (a blank text gives `undefined`), a finite number, a boolean, a record |
 | `readTime(value)` | The milliseconds of an ISO 8601 text: a date, or a date and a time with a zone. Other texts give `undefined`. |
 | `readArray(value, item)` | The items that the reader `item` reads. The reader drops each other item. |

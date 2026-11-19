@@ -14,6 +14,7 @@ import {
   decodeText,
   decodeTime,
   fieldOf,
+  isPlainObject,
   isRecord,
   kindOf,
   numberOf,
@@ -65,6 +66,37 @@ describe("isRecord", () => {
     expect(isRecord(Object.create(null))).toBe(true);
     expect(isRecord([])).toBe(false);
     expect(isRecord(null)).toBe(false);
+  });
+});
+
+describe("isPlainObject", () => {
+  class Point {
+    readonly x: number;
+    constructor(x: number) {
+      this.x = x;
+    }
+  }
+
+  it("is true for each object of a parsed JSON text, and for an object with no prototype", () => {
+    fc.assert(fc.property(KINDS.object, (value) => isPlainObject(value)));
+    // Each object at each depth of a parsed text is a plain object.
+    const plain = (value: unknown): boolean =>
+      Array.isArray(value) ? value.every(plain) : isRecord(value) ? isPlainObject(value) && Object.values(value).every(plain) : true;
+    fc.assert(fc.property(fc.json(), (text) => plain(JSON.parse(text))));
+    expect(isPlainObject(Object.create(null))).toBe(true);
+  });
+
+  it("is false for each value that is not a record, and for each record with a different prototype", () => {
+    fc.assert(fc.property(other("object"), (value) => !isPlainObject(value)));
+    // A class instance is a record, but not a plain object.
+    fc.assert(fc.property(fc.double(), (x) => isRecord(new Point(x)) && !isPlainObject(new Point(x))));
+    const others: readonly unknown[] = [new Date(0), new Map(), new Set(), /a/u, Object.create({}), Object.create(Object.create(null))];
+    for (const value of others) expect(isPlainObject(value)).toBe(false);
+  });
+
+  it("is true only for a record", () => {
+    const anything = fc.anything({ withNullPrototype: true, withMap: true, withSet: true, withDate: true, withBoxedValues: true, withTypedArray: true });
+    fc.assert(fc.property(anything, (value) => !isPlainObject(value) || isRecord(value)));
   });
 });
 

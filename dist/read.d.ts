@@ -11,6 +11,13 @@ export type Reader<T> = (value: unknown) => T | undefined;
 /** This function tells if a value is a record: an object that is not an array and not `null`. */
 export declare function isRecord(value: unknown): value is Fields;
 /**
+ * This function tells if a value is a plain object: a record whose prototype is `Object.prototype` or `null`. An object
+ * literal, a value of `JSON.parse` and `Object.create(null)` are plain objects. An array, a class instance, a `Date` and
+ * a `Map` are not. An object of a different realm, for example of `node:vm`, has a different `Object.prototype`. Thus
+ * it is not a plain object.
+ */
+export declare function isPlainObject(value: unknown): value is Fields;
+/**
  * This function gives the value of an own field of a record. A value that is not a record gives `undefined`. A field
  * of the prototype, for example `constructor` or `__proto__`, also gives `undefined`.
  */

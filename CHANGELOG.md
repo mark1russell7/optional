@@ -2,6 +2,12 @@
 
 This file lists the changes of each version of `@mark1russell7/optional`. The versions follow Semantic Versioning.
 
+## 1.4.0
+
+- The entry `/read` has the new function `isPlainObject`. It is true for a record whose prototype is `Object.prototype` or `null`.
+- An object literal, a value of `JSON.parse` and `Object.create(null)` are plain objects. An array, a class instance, a `Date` and a `Map` are not.
+- MINOR: a new export, and each old export stays the same.
+
 ## 1.3.0
 
 - The new entry `@mark1russell7/optional/read` reads unknown values, for example the value of a parsed JSON text. The root entry does not change.
