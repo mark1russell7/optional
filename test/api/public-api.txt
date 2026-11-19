@@ -59,6 +59,7 @@ decodeText: dist/read.d.ts#decodeText
 decodeTime: dist/read.d.ts#decodeTime
 decoderOf: dist/read.d.ts#decoderOf
 fieldOf: dist/read.d.ts#fieldOf
+isPlainObject: dist/read.d.ts#isPlainObject
 isRecord: dist/read.d.ts#isRecord
 kindOf: dist/read.d.ts#kindOf
 numberOf: dist/read.d.ts#numberOf
@@ -244,6 +245,9 @@ export declare function decoderOf<T>(reader: Reader<T>, expected: string): Decod
 
 ### dist/read.d.ts#fieldOf
 export declare function fieldOf(value: unknown, key: string): unknown;
+
+### dist/read.d.ts#isPlainObject
+export declare function isPlainObject(value: unknown): value is Fields;
 
 ### dist/read.d.ts#isRecord
 export declare function isRecord(value: unknown): value is Fields;
