@@ -43,6 +43,20 @@ export declare function readRecord(value: unknown): Fields | undefined;
  */
 export declare function readTime(value: unknown): number | undefined;
 /**
+ * This function gives the time of a date of HTTP or of mail, in milliseconds since 1970-01-01T00:00:00Z. It reads the
+ * three forms of RFC 9110 and the date and time of RFC 5322, the date of RSS. Some examples:
+ *
+ * - `Wed, 18 Nov 2026 10:30:00 GMT`, the IMF-fixdate of RFC 9110
+ * - `Wednesday, 18-Nov-26 10:30:00 GMT` and `Wed Nov 18 10:30:00 2026`, the obsolete forms of RFC 9110
+ * - `18 Nov 2026 10:30 -0500 (EST)` and `Wed, 18 Nov 2026 10:30:00 Z`, the forms of RFC 5322 and RSS
+ *
+ * Upper case and lower case letters of the names give the same time. The name of the day is not compared with the date.
+ * A year of two digits from 00 to 49 is from 2000 to 2049. A year of two digits from 50 to 99 is from 1950 to 1999. The
+ * military zones other than `Z` give `undefined`, because RFC 822 gave them the wrong sign. An ISO 8601 text, a space at
+ * an end and a day that its month does not have also give `undefined`.
+ */
+export declare function readHttpTime(value: unknown): number | undefined;
+/**
  * This function gives the items of an array that the reader `item` reads. The reader drops each item of a different
  * type. A value that is not an array gives `undefined`. `decodeArray` refuses an array with a bad item.
  */
@@ -55,6 +69,8 @@ export declare function numberOf(value: unknown, key: string): number | undefine
 export declare function booleanOf(value: unknown, key: string): boolean | undefined;
 /** This function gives the time of the ISO 8601 text of an own field of a record (`readTime`), or `undefined`. */
 export declare function timeOf(value: unknown, key: string): number | undefined;
+/** This function gives the time of the HTTP or mail date of an own field of a record (`readHttpTime`), or `undefined`. */
+export declare function httpTimeOf(value: unknown, key: string): number | undefined;
 /** This function gives the record of an own field of a record (`readRecord`), or `undefined`. */
 export declare function recordOf(value: unknown, key: string): Fields | undefined;
 /** This function gives the items of the array of an own field of a record (`readArray`), or `undefined`. */
@@ -93,6 +109,8 @@ export declare const decodeNumber: Decoder<number>;
 export declare const decodeBoolean: Decoder<boolean>;
 /** This decoder gives the time of an ISO 8601 text (`readTime`). */
 export declare const decodeTime: Decoder<number>;
+/** This decoder gives the time of a date of HTTP or of mail (`readHttpTime`). */
+export declare const decodeHttpTime: Decoder<number>;
 /** This decoder gives a record (`readRecord`). It does not examine the fields. */
 export declare const decodeRecord: Decoder<Fields>;
 /** This function makes a decoder that gives `undefined` for an absent value: `undefined` or `null`. Other values go to `decoder`. */

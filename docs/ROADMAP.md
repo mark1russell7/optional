@@ -5,7 +5,7 @@ This file is the plan of optional. The Status page of the site reads it.
 | ID | Item | Status | Summary |
 | --- | --- | --- | --- |
 | O1 | The conventions check in CI | in progress | CI starts `pnpm check:conventions` of `@mark1russell7/conventions` 0.22.0. A run of `main` then ends, and a newer push cancels only the run of a pull request. |
-| O4 | A reader of HTTP dates | not started | `readHttpTime` in the entry `/read` reads the dates of RFC 9110 and RFC 822, for example `Wed, 18 Nov 2026 10:30:00 GMT`. The feeds that read these dates with `Date.parse` then move to it. |
+| O4 | A reader of HTTP dates | done | `readHttpTime` in the entry `/read` reads the dates of RFC 9110 and RFC 5322, for example `Wed, 18 Nov 2026 10:30:00 GMT`. The feeds that read these dates with `Date.parse` move to it after the release. Version 1.5.0. |
 | O5 | The plain object check | done | `isPlainObject` in the entry `/read` is true for a record whose prototype is `Object.prototype` or `null`. The local copies of the repositories move to it. Version 1.4.0. |
 | O3 | Typed reads of unknown values | done | The entry `@mark1russell7/optional/read` has the record check, readers that give `undefined` for a wrong type, and decoders that give the path of the first bad field. Version 1.3.0. |
 | O2 | No build output in git | not started | Git keeps `dist/`, because render and Vex install this package from git. When render and Vex install it from npm, `dist/` goes out of git. Until then, the rules `no-build-output` and `typed-scripts` keep an exception for `dist/`. |
