@@ -52,6 +52,7 @@ booleanOf: dist/read.d.ts#booleanOf
 decodeArray: dist/read.d.ts#decodeArray
 decodeBoolean: dist/read.d.ts#decodeBoolean
 decodeFields: dist/read.d.ts#decodeFields
+decodeHttpTime: dist/read.d.ts#decodeHttpTime
 decodeNumber: dist/read.d.ts#decodeNumber
 decodeOptional: dist/read.d.ts#decodeOptional
 decodeRecord: dist/read.d.ts#decodeRecord
@@ -59,6 +60,7 @@ decodeText: dist/read.d.ts#decodeText
 decodeTime: dist/read.d.ts#decodeTime
 decoderOf: dist/read.d.ts#decoderOf
 fieldOf: dist/read.d.ts#fieldOf
+httpTimeOf: dist/read.d.ts#httpTimeOf
 isPlainObject: dist/read.d.ts#isPlainObject
 isRecord: dist/read.d.ts#isRecord
 kindOf: dist/read.d.ts#kindOf
@@ -66,6 +68,7 @@ numberOf: dist/read.d.ts#numberOf
 pathText: dist/read.d.ts#pathText
 readArray: dist/read.d.ts#readArray
 readBoolean: dist/read.d.ts#readBoolean
+readHttpTime: dist/read.d.ts#readHttpTime
 readNumber: dist/read.d.ts#readNumber
 readRecord: dist/read.d.ts#readRecord
 readText: dist/read.d.ts#readText
@@ -225,6 +228,9 @@ export declare function decodeFields<S extends Shape>(shape: S): Decoder<{
     readonly [K in keyof S]: Decoded<S[K]>;
 }>;
 
+### dist/read.d.ts#decodeHttpTime
+export declare const decodeHttpTime: Decoder<number>;
+
 ### dist/read.d.ts#decodeNumber
 export declare const decodeNumber: Decoder<number>;
 
@@ -246,6 +252,9 @@ export declare function decoderOf<T>(reader: Reader<T>, expected: string): Decod
 ### dist/read.d.ts#fieldOf
 export declare function fieldOf(value: unknown, key: string): unknown;
 
+### dist/read.d.ts#httpTimeOf
+export declare function httpTimeOf(value: unknown, key: string): number | undefined;
+
 ### dist/read.d.ts#isPlainObject
 export declare function isPlainObject(value: unknown): value is Fields;
 
@@ -266,6 +275,9 @@ export declare function readArray<T>(value: unknown, item: Reader<T>): readonly 
 
 ### dist/read.d.ts#readBoolean
 export declare function readBoolean(value: unknown): boolean | undefined;
+
+### dist/read.d.ts#readHttpTime
+export declare function readHttpTime(value: unknown): number | undefined;
 
 ### dist/read.d.ts#readNumber
 export declare function readNumber(value: unknown): number | undefined;

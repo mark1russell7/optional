@@ -84,25 +84,93 @@ export function readTime(value: unknown): number | undefined {
   const match = ISO_TIME.exec(value);
   if (match === null) return undefined;
   const [, y, mo, d, h = "00", mi = "00", s = "00", fraction = "", zone = "Z"] = match;
-  const year = Number(y);
-  const month = Number(mo);
-  const day = Number(d);
-  const hour = Number(h);
-  const minute = Number(mi);
-  const second = Number(s);
-  if (month < 1 || month > 12 || day < 1 || day > daysIn(year, month) || hour > 23 || minute > 59 || second > 59) return undefined;
   let offset = 0;
   if (zone !== "Z") {
     const zoneHours = Number(zone.slice(1, 3));
     const zoneMinutes = zone.length > 3 ? Number(zone.slice(4, 6)) : 0;
     if (zoneHours > 23 || zoneMinutes > 59) return undefined;
-    offset = (zone.startsWith("-") ? -1 : 1) * (zoneHours * 60 + zoneMinutes) * 60_000;
+    offset = (zone.startsWith("-") ? -1 : 1) * (zoneHours * 60 + zoneMinutes);
   }
+  return instantOf(Number(y), Number(mo), Number(d), Number(h), Number(mi), Number(s), Number(fraction.padEnd(3, "0").slice(0, 3)), offset);
+}
+
+// This function gives the instant of a time of the calendar at the offset `offset`, in minutes east of UTC. A field out
+// of its range, for example the day 31 of a month of 30 days, gives `undefined`.
+function instantOf(year: number, month: number, day: number, hour: number, minute: number, second: number, milliseconds: number, offset: number): number | undefined {
+  if (month < 1 || month > 12 || day < 1 || day > daysIn(year, month) || hour > 23 || minute > 59 || second > 59) return undefined;
   // `Date.UTC` adds 1900 to a year below 100, so the year goes in with `setUTCFullYear`.
   const date = new Date(0);
   date.setUTCFullYear(year, month - 1, day);
-  date.setUTCHours(hour, minute, second, Number(fraction.padEnd(3, "0").slice(0, 3)));
-  return date.getTime() - offset;
+  date.setUTCHours(hour, minute, second, milliseconds);
+  return date.getTime() - offset * 60_000;
+}
+
+// The three-letter names of the months and of the days. The names of the days start at Monday.
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+const DAYS_OF_WEEK = "mon|tue|wed|thu|fri|sat|sun";
+const MONTH_NAMES = MONTHS.join("|");
+
+// The zones of RFC 5322 with a name, in minutes east of UTC. `UTC` and the military zone `Z` are also UTC.
+const NAMED_ZONES: Readonly<Record<string, number>> = { ut: 0, utc: 0, gmt: 0, z: 0, est: -300, edt: -240, cst: -360, cdt: -300, mst: -420, mdt: -360, pst: -480, pdt: -420 };
+
+// The date and time of RFC 5322. The IMF-fixdate of RFC 9110 is one of its forms. A comment can follow the zone.
+const MAIL_TIME = new RegExp(String.raw`^(?:(?:${DAYS_OF_WEEK})\s*,\s*)?(\d{1,2})\s+(${MONTH_NAMES})\s+(\d{2,4})\s+(\d{2}):(\d{2})(?::(\d{2}))?\s+([+-]\d{4}|[a-z]{1,3})(?:\s*\([^()]*\))?$`, "i");
+// The obsolete date of RFC 850, with the full name of the day and a year of two digits. The zone is always GMT.
+const RFC_850_TIME = new RegExp(String.raw`^(?:mon|tues|wednes|thurs|fri|satur|sun)day, (\d{2})-(${MONTH_NAMES})-(\d{2}) (\d{2}):(\d{2}):(\d{2}) GMT$`, "i");
+// The date of the C function asctime. The day has a space before one digit, and the zone is always GMT.
+const ASCTIME = new RegExp(String.raw`^(?:${DAYS_OF_WEEK}) (${MONTH_NAMES}) ( \d|\d{2}) (\d{2}):(\d{2}):(\d{2}) (\d{4})$`, "i");
+
+// This function gives the year of a year of two or three digits, by the rule of RFC 5322: 00 to 49 are 2000 to 2049.
+function fullYear(text: string): number {
+  const year = Number(text);
+  if (text.length === 4) return year;
+  return text.length === 2 && year < 50 ? 2000 + year : 1900 + year;
+}
+
+const monthOf = (name: string): number => MONTHS.indexOf(name.toLowerCase()) + 1;
+
+/**
+ * This function gives the time of a date of HTTP or of mail, in milliseconds since 1970-01-01T00:00:00Z. It reads the
+ * three forms of RFC 9110 and the date and time of RFC 5322, the date of RSS. Some examples:
+ *
+ * - `Wed, 18 Nov 2026 10:30:00 GMT`, the IMF-fixdate of RFC 9110
+ * - `Wednesday, 18-Nov-26 10:30:00 GMT` and `Wed Nov 18 10:30:00 2026`, the obsolete forms of RFC 9110
+ * - `18 Nov 2026 10:30 -0500 (EST)` and `Wed, 18 Nov 2026 10:30:00 Z`, the forms of RFC 5322 and RSS
+ *
+ * Upper case and lower case letters of the names give the same time. The name of the day is not compared with the date.
+ * A year of two digits from 00 to 49 is from 2000 to 2049. A year of two digits from 50 to 99 is from 1950 to 1999. The
+ * military zones other than `Z` give `undefined`, because RFC 822 gave them the wrong sign. An ISO 8601 text, a space at
+ * an end and a day that its month does not have also give `undefined`.
+ */
+export function readHttpTime(value: unknown): number | undefined {
+  if (typeof value !== "string") return undefined;
+  const mail = MAIL_TIME.exec(value);
+  if (mail !== null) {
+    const [, day = "", month = "", year = "", hour = "", minute = "", second = "00", zone = ""] = mail;
+    const offset = zoneOffset(zone);
+    return offset === undefined ? undefined : instantOf(fullYear(year), monthOf(month), Number(day), Number(hour), Number(minute), Number(second), 0, offset);
+  }
+  const old = RFC_850_TIME.exec(value);
+  if (old !== null) {
+    const [, day = "", month = "", year = "", hour = "", minute = "", second = ""] = old;
+    return instantOf(fullYear(year), monthOf(month), Number(day), Number(hour), Number(minute), Number(second), 0, 0);
+  }
+  const asctime = ASCTIME.exec(value);
+  if (asctime === null) return undefined;
+  const [, month = "", day = "", hour = "", minute = "", second = "", year = ""] = asctime;
+  return instantOf(Number(year), monthOf(month), Number(day.trim()), Number(hour), Number(minute), Number(second), 0, 0);
+}
+
+// This function gives the offset of a zone of RFC 5322, in minutes east of UTC, or `undefined` for an unknown zone.
+function zoneOffset(zone: string): number | undefined {
+  if (zone.startsWith("+") || zone.startsWith("-")) {
+    const hours = Number(zone.slice(1, 3));
+    const minutes = Number(zone.slice(3, 5));
+    if (hours > 23 || minutes > 59) return undefined;
+    return (zone.startsWith("-") ? -1 : 1) * (hours * 60 + minutes);
+  }
+  const name = zone.toLowerCase();
+  return Object.hasOwn(NAMED_ZONES, name) ? NAMED_ZONES[name] : undefined;
 }
 
 /**
@@ -137,6 +205,11 @@ export function booleanOf(value: unknown, key: string): boolean | undefined {
 /** This function gives the time of the ISO 8601 text of an own field of a record (`readTime`), or `undefined`. */
 export function timeOf(value: unknown, key: string): number | undefined {
   return readTime(fieldOf(value, key));
+}
+
+/** This function gives the time of the HTTP or mail date of an own field of a record (`readHttpTime`), or `undefined`. */
+export function httpTimeOf(value: unknown, key: string): number | undefined {
+  return readHttpTime(fieldOf(value, key));
 }
 
 /** This function gives the record of an own field of a record (`readRecord`), or `undefined`. */
@@ -202,6 +275,9 @@ export const decodeBoolean: Decoder<boolean> = decoderOf(readBoolean, "boolean")
 
 /** This decoder gives the time of an ISO 8601 text (`readTime`). */
 export const decodeTime: Decoder<number> = decoderOf(readTime, "time");
+
+/** This decoder gives the time of a date of HTTP or of mail (`readHttpTime`). */
+export const decodeHttpTime: Decoder<number> = decoderOf(readHttpTime, "HTTP time");
 
 /** This decoder gives a record (`readRecord`). It does not examine the fields. */
 export const decodeRecord: Decoder<Fields> = decoderOf(readRecord, "record");

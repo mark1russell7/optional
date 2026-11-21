@@ -67,9 +67,10 @@ The entry `@mark1russell7/optional/read` reads unknown values, for example the v
 | `isPlainObject(value)` | `true` for a record whose prototype is `Object.prototype` or `null`. A class instance, a `Date` and a `Map` give `false`. |
 | `readText`, `readNumber`, `readBoolean`, `readRecord` | A text with no space at its ends (a blank text gives `undefined`), a finite number, a boolean, a record |
 | `readTime(value)` | The milliseconds of an ISO 8601 text: a date, or a date and a time with a zone. Other texts give `undefined`. |
+| `readHttpTime(value)` | The milliseconds of a date of HTTP (RFC 9110) or of mail and RSS (RFC 5322), for example `Wed, 18 Nov 2026 10:30:00 GMT` |
 | `readArray(value, item)` | The items that the reader `item` reads. The reader drops each other item. |
-| `fieldOf`, `textOf`, `numberOf`, `booleanOf`, `timeOf`, `recordOf`, `arrayOf` | The same reads on an own field of a record |
-| `decodeText`, `decodeNumber`, `decodeBoolean`, `decodeTime`, `decodeRecord`, `decoderOf(reader, expected)` | Decoders of one value |
+| `fieldOf`, `textOf`, `numberOf`, `booleanOf`, `timeOf`, `httpTimeOf`, `recordOf`, `arrayOf` | The same reads on an own field of a record |
+| `decodeText`, `decodeNumber`, `decodeBoolean`, `decodeTime`, `decodeHttpTime`, `decodeRecord`, `decoderOf(reader, expected)` | Decoders of one value |
 | `decodeArray(item)`, `decodeFields(shape)`, `decodeOptional(decoder)` | Decoders of an array, of a record and of an optional value |
 | `DecodeError`, `pathText(path)`, `kindOf(value)` | The error: the path as keys and indexes, the expected value and the kind of the found value. It does not hold the value. |
 

@@ -2,6 +2,14 @@
 
 This file lists the changes of each version of `@mark1russell7/optional`. The versions follow Semantic Versioning.
 
+## 1.5.0
+
+- The entry `/read` has the new function `readHttpTime`. It reads the three date forms of RFC 9110 and the date and time of RFC 5322, the date of RSS.
+- A zone is an offset, for example `-0500`, or a name of RFC 5322, for example `GMT` or `EST`. `UTC` and the military zone `Z` are also UTC.
+- A year of two digits follows RFC 5322: 00 to 49 are 2000 to 2049. A military zone other than `Z` gives `undefined`.
+- `httpTimeOf` reads an own field of a record with `readHttpTime`, and `decodeHttpTime` is its decoder.
+- MINOR: three new exports, and each old export stays the same.
+
 ## 1.4.0
 
 - The entry `/read` has the new function `isPlainObject`. It is true for a record whose prototype is `Object.prototype` or `null`.
