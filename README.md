@@ -15,7 +15,7 @@ getOr(fromNullable(undefined), 0);  // 0
 | Project | Use |
 |---|---|
 | [render](https://github.com/mark1russell7/render) | `@render/optional` gives the exports of this package. |
-| [Vex](https://github.com/mark1russell7/vex) | The type `Optional` of `@mark1russell7/vex` is the type of this package. |
+| [Vex](https://github.com/metrograph-labs/vex) | The type `Optional` of `@mark1russell7/vex` is the type of this package. |
 
 ## API
 
